@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:safeauto/screens/onboarding_screen.dart';
+
 import 'package:safeauto/screens/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

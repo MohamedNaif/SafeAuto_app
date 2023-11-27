@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:safeauto/screens/ligin_screen.dart';
+import 'package:safeauto/widget/text_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/cubit/cubit/onboarding_cubit.dart';
@@ -20,21 +22,21 @@ class onBoardingScreen extends StatefulWidget {
 class _onBoardingScreenState extends State<onBoardingScreen> {
   final int pageNum = 3;
   List<String> onBoardingTitle = [
-    '',
+    'Welcome to our SafeAuto App!',
     'Welcome to our SafeAuto App!',
     'Secure Access with Fingerprint Verification',
     "Effortless Access for Trusted Individuals",
-    '        ',
+    "Effortless Access for Trusted Individuals",
   ];
   List<String> onBoardingLOttie = [
-    '',
+    'assets/animation_lmhtant5.json',
     'assets/animation_lmhtant5.json',
     'assets/animation_lmht68ka.json',
     'assets/animation_lmhtax6o.json',
-    '        ',
+    'assets/animation_lmhtax6o.json',
   ];
   List<String> onBoardingSubtitle = [
-    '',
+    '                     ',
     "Experience advanced car management with CarGuard. Control access, track location, and receive real-time alerts for ultimate security and convenience.",
     "Unlock your car with a simple fingerprint scan. Enjoy secure and hassle-free authentication with CarGuard.",
     "Grant seamless access to trusted individuals. CarGuard recognizes trusted persons, ensuring convenient and secure car access.",
@@ -202,7 +204,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                         );
                       },
                     ),
-                    InkWell(
+                    MyInkWellButton(
                       onTap: () async {
                         await _storeOnBoardingInfo();
                         // final prefs = await SharedPreferences.getInstance();
@@ -214,27 +216,47 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomePage()));
+                                builder: (context) => LoginScreen()));
                       },
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        // color: Color(0x40F8FF),
-                        decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 64, 248, 255),
-                            borderRadius: BorderRadius.circular(8)),
-                        child: const Center(
-                            child: Text(
-                          "Get Started",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: "Lato",
-                          ),
-                        )),
-                      ),
-                    )
+                      buttonColor: Color.fromARGB(255, 64, 248, 255),
+                      buttonText: "Get Started",
+                      fontFamily: "Lato",
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    // InkWell(
+                    //   onTap: () async {
+                    //     await _storeOnBoardingInfo();
+                    //     // final prefs = await SharedPreferences.getInstance();
+                    //     // prefs.setBool('showHome', true);
+
+                    //     // setOnboardingShown();
+                    //     _timer?.cancel();
+                    //     // context.read<CountriesCubit>().getCountriesDate();
+                    //     Navigator.pushReplacement(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //             builder: (context) => LoginScreen()));
+                    //   },
+                    //   child: Container(
+                    //     padding: const EdgeInsets.all(10),
+                    //     width: MediaQuery.of(context).size.width * 0.6,
+                    //     // color: Color(0x40F8FF),
+                    //     decoration: BoxDecoration(
+                    //         color: Color.fromARGB(255, 64, 248, 255),
+                    //         borderRadius: BorderRadius.circular(8)),
+                    //     child: const Center(
+                    //         child: Text(
+                    //       "Get Started",
+                    //       style: TextStyle(
+                    //         color: Color.fromARGB(255, 0, 0, 0),
+                    //         fontSize: 18.0,
+                    //         fontWeight: FontWeight.bold,
+                    //         fontFamily: "Lato",
+                    //       ),
+                    //     )),
+                    //   ),
+                    // )
                   ],
                 ),
               )

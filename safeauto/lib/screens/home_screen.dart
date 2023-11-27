@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:lottie/lottie.dart';
+import 'package:safeauto/screens/message_screen.dart';
 import 'package:safeauto/screens/test.dart';
 
 class HomePage extends StatefulWidget {
@@ -55,16 +56,16 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           Container(
-            height: 250,
+            height: 200,
             decoration: const BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.contain,
                 image: AssetImage(
                   // 'assets/photo_2023-09-23_19-49-27.jpg',
                   // 'assets/photo_2023-09-23_19-49-23.jpg',
-                  'assets/photo_2023-09-23_19-49-00.jpg',
+                  // 'assets/photo_2023-09-23_19-49-00.jpg',
                   // 'assets/photo_2023-09-25_04-33-24.jpg',
-                  // 'assets/istockphoto-1406257864-612x612.jpg',
+                  'assets/istockphoto-1406257864-612x612.jpg',
                 ),
               ),
             ),
@@ -102,6 +103,14 @@ class BottomNavBar extends StatelessWidget {
       tabBackgroundColor: Colors.white,
       gap: 0,
       onTabChange: (index) {
+        if (index == 2) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatScreen(),
+            ),
+          );
+        }
         print(index);
       },
       padding: const EdgeInsets.all(16),
@@ -115,8 +124,8 @@ class BottomNavBar extends StatelessWidget {
           text: 'Location',
         ),
         GButton(
-          icon: Icons.person,
-          text: 'People',
+          icon: Icons.message,
+          text: 'Message',
         ),
         GButton(
           icon: Icons.car_crash_sharp,

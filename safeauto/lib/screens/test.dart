@@ -34,7 +34,7 @@ class CardWidget extends StatelessWidget {
         crossAxisCount: 2,
         children: List.generate(cardItems.length, (index) {
           return ClipRRect(
-            borderRadius: BorderRadius.all(Radius.elliptical(50, 50)),
+            borderRadius: const BorderRadius.all(Radius.elliptical(50, 50)),
             child: Card(
               color: cardItems[index].backgroundColor,
               margin: EdgeInsets.all(16.0),
