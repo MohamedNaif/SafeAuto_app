@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "960178877868",
+    "project_id": "safeauto-97339",
+    "storage_bucket": "safeauto-97339.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960178877868:android:e57f6a14600f403dfa7609",
+        "android_client_info": {
+          "package_name": "com.example.safeauto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADy5eobd-DdfuYoaiseE3iVFol24I5GMQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

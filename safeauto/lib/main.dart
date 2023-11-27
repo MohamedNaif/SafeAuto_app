@@ -3,10 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:safeauto/screens/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 import 'data/cubit/cubit/onboarding_cubit.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   // SharedPreferences prefs = await SharedPreferences.getInstance();
   // initScreen = (prefs.getInt('onBoard'));
   runApp(const MyApp());

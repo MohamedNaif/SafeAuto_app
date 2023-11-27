@@ -20,8 +20,6 @@ class RegisterScreen extends StatelessWidget {
 
   RegisterScreen({super.key});
 
-  final _loginFormKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -66,7 +64,7 @@ class RegisterScreen extends StatelessWidget {
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20))),
               child: Form(
-                key: _loginFormKey,
+                key: _formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

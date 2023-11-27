@@ -224,39 +224,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
-                    // InkWell(
-                    //   onTap: () async {
-                    //     await _storeOnBoardingInfo();
-                    //     // final prefs = await SharedPreferences.getInstance();
-                    //     // prefs.setBool('showHome', true);
-
-                    //     // setOnboardingShown();
-                    //     _timer?.cancel();
-                    //     // context.read<CountriesCubit>().getCountriesDate();
-                    //     Navigator.pushReplacement(
-                    //         context,
-                    //         MaterialPageRoute(
-                    //             builder: (context) => LoginScreen()));
-                    //   },
-                    //   child: Container(
-                    //     padding: const EdgeInsets.all(10),
-                    //     width: MediaQuery.of(context).size.width * 0.6,
-                    //     // color: Color(0x40F8FF),
-                    //     decoration: BoxDecoration(
-                    //         color: Color.fromARGB(255, 64, 248, 255),
-                    //         borderRadius: BorderRadius.circular(8)),
-                    //     child: const Center(
-                    //         child: Text(
-                    //       "Get Started",
-                    //       style: TextStyle(
-                    //         color: Color.fromARGB(255, 0, 0, 0),
-                    //         fontSize: 18.0,
-                    //         fontWeight: FontWeight.bold,
-                    //         fontFamily: "Lato",
-                    //       ),
-                    //     )),
-                    //   ),
-                    // )
+                    //
                   ],
                 ),
               )
