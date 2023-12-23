@@ -28,7 +28,8 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<OnBoardingControllerCubit>(
-            create: (BuildContext context) => OnBoardingControllerCubit()),
+          create: (BuildContext context) => OnBoardingControllerCubit(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
