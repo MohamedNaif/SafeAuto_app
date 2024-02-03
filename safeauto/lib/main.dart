@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:safeauto/message/firebase_real_data.dart';
 
 import 'package:safeauto/screens/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,7 +17,7 @@ void main() async {
 
   // SharedPreferences prefs = await SharedPreferences.getInstance();
   // initScreen = (prefs.getInt('onBoard'));
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -28,11 +29,18 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<OnBoardingControllerCubit>(
-            create: (BuildContext context) => OnBoardingControllerCubit()),
+          create: (BuildContext context) => OnBoardingControllerCubit(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: SplashScreen(),
+        home:
+            // SplashScreen(),
+            AddUser(
+          fullName: '',
+          company: '',
+          age: 19,
+        ),
       ),
     );
   }

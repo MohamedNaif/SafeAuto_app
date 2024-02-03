@@ -5,6 +5,7 @@ class MyTextFormField extends StatelessWidget {
   final String labelText;
   final bool obscureText;
   final String? Function(String?)? validator;
+  final IconButton icons;
 
   const MyTextFormField({
     Key? key,
@@ -12,6 +13,7 @@ class MyTextFormField extends StatelessWidget {
     required this.labelText,
     this.obscureText = false,
     this.validator,
+    required this.icons,
   }) : super(key: key);
 
   @override
@@ -24,6 +26,7 @@ class MyTextFormField extends StatelessWidget {
           obscureText: obscureText,
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
+            prefixIcon: icons,
             labelText: labelText,
             labelStyle: const TextStyle(
               color: Color.fromARGB(255, 64, 248, 255),
