@@ -48,7 +48,7 @@ dependencies:
   shared_preferences: ^2.2.0
   cached_network_image:
   lottie: ^2.3.2
-  local_auth:
+  local_auth: ^2.1.8
   firebase_core: ^2.23.0
   firebase_auth: ^4.15.3
   google_sign_in: ^6.1.6

@@ -10,6 +10,7 @@ import 'package:safeauto/auth/widget/text_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/cubit/cubit/onboarding_cubit.dart';
+import 'finger_print_screen.dart';
 import 'home_screen.dart';
 import 'package:lottie/lottie.dart';
 
@@ -220,7 +221,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                                 builder: (context) =>
                                     FirebaseAuth.instance.currentUser == null
                                         ? LoginScreen()
-                                        : HomePage()));
+                                        : FingerPrint()));
                       },
                       buttonColor: Color.fromARGB(255, 64, 248, 255),
                       buttonText: "Get Started",
