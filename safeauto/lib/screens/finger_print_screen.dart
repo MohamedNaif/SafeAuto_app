@@ -50,19 +50,15 @@ class _FingerPrintState extends State<FingerPrint> {
               onTap: () async {
                 isBiometric = await authntificateWithBiometrics();
 
-                if(isBiometric){
+                if (isBiometric) {
                   Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                      // FirebaseAuth.instance.currentUser == null
-                      //                   ? LoginScreen()
-                      //                   : HomePage()
-                          HomePage()), // Replace with your home screen widget
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            HomePage()), // Replace with your home screen widget
+                  );
                 }
                 // Navigate to the home screen
-                
               },
               child: Icon(
                 Icons.fingerprint_rounded,
