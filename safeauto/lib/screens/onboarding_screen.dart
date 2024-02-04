@@ -1,11 +1,12 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:safeauto/screens/ligin_screen.dart';
-import 'package:safeauto/widget/text_button.dart';
+import 'package:safeauto/auth/login_screen.dart';
+import 'package:safeauto/auth/widget/text_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/cubit/cubit/onboarding_cubit.dart';
@@ -216,7 +217,10 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LoginScreen()));
+                                builder: (context) =>
+                                    FirebaseAuth.instance.currentUser == null
+                                        ? LoginScreen()
+                                        : HomePage()));
                       },
                       buttonColor: Color.fromARGB(255, 64, 248, 255),
                       buttonText: "Get Started",

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:safeauto/screens/finger_print_screen.dart';
 import 'package:safeauto/screens/home_screen.dart';
-import 'package:safeauto/screens/register_screen.dart';
-import 'package:safeauto/widget/google_container.dart';
-import 'package:safeauto/widget/text_button.dart';
-import 'package:safeauto/widget/textformfield.dart';
+import 'package:safeauto/auth/register_screen.dart';
+import 'package:safeauto/auth/widget/google_container.dart';
+import 'package:safeauto/auth/widget/text_button.dart';
+import 'package:safeauto/auth/widget/textformfield.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatefulWidget {
