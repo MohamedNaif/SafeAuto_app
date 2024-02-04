@@ -7,6 +7,7 @@ import 'package:safeauto/auth/widget/google_container.dart';
 import 'package:safeauto/auth/widget/text_button.dart';
 import 'package:safeauto/auth/widget/textformfield.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -148,22 +149,40 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               );
                             } else {
+                              AwesomeDialog(
+                                context: context,
+                                dialogType: DialogType.error,
+                                animType: AnimType.rightSlide,
+                                title: 'Error',
+                                desc: 'Invalid email or password.',
+                                // btnCancelOnPress: () {},
+                                // btnOkOnPress: () {},
+                              )..show();
                               // User did not register with email/password
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Invalid email or password.'),
-                                ),
-                              );
+                              // ScaffoldMessenger.of(context).showSnackBar(
+                              //   const SnackBar(
+                              //     content: Text('Invalid email or password.'),
+                              //   ),
+                              // );
                             }
                           } catch (error) {
                             print(
                                 'Email/password authentication failed: $error');
                             // Handle authentication failure, show an error message if needed
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Invalid email or password.'),
-                              ),
-                            );
+                            AwesomeDialog(
+                              context: context,
+                              dialogType: DialogType.error,
+                              animType: AnimType.rightSlide,
+                              title: 'Error',
+                              desc: 'Invalid email or password.',
+                              // btnCancelOnPress: () {},
+                              // btnOkOnPress: () {},
+                            )..show();
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //   const SnackBar(
+                            //     content: Text('Invalid email or password.'),
+                            //   ),
+                            // );
                           }
                         }
                       },

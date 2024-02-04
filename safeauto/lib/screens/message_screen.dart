@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -118,6 +119,18 @@ class _ChatBubble2State extends State<ChatBubble2> {
     super.dispose();
   }
 
+  void showResultDialog(bool isTrusted) {
+    AwesomeDialog(
+      context: context,
+      dialogType: isTrusted ? DialogType.success : DialogType.error,
+      animType: AnimType.rightSlide,
+      title: isTrusted ? 'Success' : 'Failed',
+      desc: isTrusted
+          ? 'The passenger was allowed to use the car'
+          : 'The passenger was not allowed to use the car',
+    )..show();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -155,8 +168,9 @@ class _ChatBubble2State extends State<ChatBubble2> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const HomePage())); // Close the dialog
+                                  builder: (context) => const HomePage()));
+                          showResultDialog(false);
+                          // Close the dialog
                         },
                         child: const Text("No"),
                       ),
@@ -165,9 +179,10 @@ class _ChatBubble2State extends State<ChatBubble2> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      const HomePage())); // Close the dialog
-                          _showTopScreenMessage(context);
+                                  builder: (context) => const HomePage()));
+                          showResultDialog(true);
+                          // Close the dialog
+                          // _showTopScreenMessage(context);
                           // Handle trusted action
                         },
                         child: const Text("Yes"),
@@ -217,14 +232,6 @@ class _ChatBubble2State extends State<ChatBubble2> {
                   ],
                 ),
         ),
-      ),
-    );
-  }
-
-  void _showTopScreenMessage(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("The passenger was allowed to use the car"),
       ),
     );
   }
