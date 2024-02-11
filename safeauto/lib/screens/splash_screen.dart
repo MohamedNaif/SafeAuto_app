@@ -31,12 +31,16 @@ class _SplashScreenState extends State<SplashScreen>
       () {
         // context.read<NewsAppCubit>().getNewsApp();
         Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    FirebaseAuth.instance.currentUser == null &&  FirebaseAuth.instance.currentUser!.emailVerified == false
-                                        ? onBoardingScreen()
-                                        : FingerPrint()));
+            context,
+            MaterialPageRoute(
+                builder: (context) => FirebaseAuth.instance.currentUser ==
+                            null &&
+                        (FirebaseAuth.instance.currentUser?.emailVerified ==
+                                false ||
+                            FirebaseAuth.instance.currentUser?.emailVerified ==
+                                null)
+                    ? onBoardingScreen()
+                    : FingerPrint()));
         //================================================
         // if (MyApp().showHome == false) {
         //   Navigator.pushReplacement(

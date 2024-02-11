@@ -219,7 +219,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    FirebaseAuth.instance.currentUser == null && FirebaseAuth.instance.currentUser!.emailVerified == false
+                                    FirebaseAuth.instance.currentUser == null && (FirebaseAuth.instance.currentUser?.emailVerified == false||FirebaseAuth.instance.currentUser?.emailVerified == null)
                                         ? LoginScreen()
                                         : FingerPrint()));
                       },
