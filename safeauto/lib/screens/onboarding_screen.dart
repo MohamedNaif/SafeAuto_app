@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+// import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safeauto/auth/login_screen.dart';
 import 'package:safeauto/auth/widget/text_button.dart';
@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/cubit/cubit/onboarding_cubit.dart';
 import 'finger_print_screen.dart';
-import 'home_screen.dart';
+// import 'home_screen.dart';
 import 'package:lottie/lottie.dart';
 
 class onBoardingScreen extends StatefulWidget {

@@ -39,11 +39,7 @@ class CardWidget extends StatefulWidget {
 }
 
 class _CardWidgetState extends State<CardWidget> {
-  // void powerSwitchChanged(bool value, int index) {
-  //   setState(() {
-  //     widget.cardItems[index] = value as CardItem;
-  //   });
-  // }
+ 
 
   @override
   Widget build(BuildContext context) {

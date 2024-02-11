@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:safeauto/screens/onboarding_screen.dart';
 
-import 'home_screen.dart';
+// import '../auth/login_screen.dart';
+import 'finger_print_screen.dart';
+// import 'home_screen.dart';
 
 // int? initScreen;
 
@@ -28,13 +31,12 @@ class _SplashScreenState extends State<SplashScreen>
       () {
         // context.read<NewsAppCubit>().getNewsApp();
         Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: ((context) =>
-                // initScreen != 0 ? onBoardingScreen() : HomePage()
-                onBoardingScreen()),
-          ),
-        );
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    FirebaseAuth.instance.currentUser == null
+                                        ? onBoardingScreen()
+                                        : FingerPrint()));
         //================================================
         // if (MyApp().showHome == false) {
         //   Navigator.pushReplacement(
@@ -58,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    var screenH = MediaQuery.of(context).size.height;
+    // var screenH = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(

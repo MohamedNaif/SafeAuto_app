@@ -1,15 +1,17 @@
-import 'dart:math';
+// import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:flutter/src/widgets/placeholder.dart';
+// import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:lottie/lottie.dart';
+// import 'package:lottie/lottie.dart';
+import 'package:safeauto/screens/card_item.dart';
 import 'package:safeauto/screens/message_screen.dart';
-import 'package:safeauto/screens/test.dart';
+// import 'package:safeauto/screens/test.dart';
 
 import '../auth/login_screen.dart';
 
@@ -22,6 +24,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<bool> switchStates = [false, false, false, false];
+  CollectionReference _firestore =
+      FirebaseFirestore.instance.collection('actions');
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +81,9 @@ class _HomePageState extends State<HomePage> {
                       onChange: (newValue) {
                         setState(() {
                           switchStates[0] = newValue;
+                          if (newValue == true) {
+                            _updateFirestoreData('Doors', 'On');
+                          }
                         });
                       },
                     ),
@@ -91,6 +98,9 @@ class _HomePageState extends State<HomePage> {
                       onChange: (newValue) {
                         setState(() {
                           switchStates[1] = newValue;
+                          if (newValue == true) {
+                            _updateFirestoreData('Trunk', 'Open');
+                          }
                         });
                       },
                     ),
@@ -105,6 +115,9 @@ class _HomePageState extends State<HomePage> {
                       onChange: (newValue) {
                         setState(() {
                           switchStates[2] = newValue;
+                          if (newValue == true) {
+                            _updateFirestoreData('Engine', 'Start');
+                          }
                         });
                       },
                     ),
@@ -119,6 +132,9 @@ class _HomePageState extends State<HomePage> {
                       onChange: (newValue) {
                         setState(() {
                           switchStates[3] = newValue;
+                          if (newValue == true) {
+                            _updateFirestoreData('Climate', 'Adjust');
+                          }
                         });
                       },
                     ),
@@ -138,6 +154,18 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  Future<void> _updateFirestoreData(String itemName, String action) async {
+    _firestore
+        .add({
+          'item': itemName,
+          'action': action,
+          'timestamp': FieldValue.serverTimestamp(),
+        })
+        .then((value) => print("============Added"))
+        .catchError(
+            (error) => print("=========================Failed : $error"));
+  }
 }
 
 class BottomNavBar extends StatelessWidget {
@@ -148,41 +176,40 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GNav(
-      backgroundColor: const Color.fromARGB(0, 0, 0, 0),
-      color: Colors.white,
-      activeColor: const Color.fromARGB(255, 17, 97, 129),
-      tabBackgroundColor: Colors.white,
-      gap: 0,
-      onTabChange: (index) {
-        if (index == 2) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChatScreen(),
-            ),
-          );
-        }
-        print(index);
-      },
-      padding: const EdgeInsets.all(16),
-      tabs: const [
-        GButton(
-          icon: Icons.home,
-          text: 'Home',
-        ),
-        GButton(
-          icon: Icons.location_on,
-          text: 'Location',
-        ),
-        GButton(
-          icon: Icons.message,
-          text: 'Message',
-        ),
-        GButton(
-          icon: Icons.car_crash_sharp,
-          text: 'My Car',
-        )
-      ],
-    );
+        backgroundColor: const Color.fromARGB(0, 0, 0, 0),
+        color: Colors.white,
+        activeColor: const Color.fromARGB(255, 17, 97, 129),
+        tabBackgroundColor: Colors.white,
+        gap: 0,
+        onTabChange: (index) {
+          if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChatScreen(),
+              ),
+            );
+          }
+          print(index);
+        },
+        padding: const EdgeInsets.all(16),
+        tabs: const [
+          GButton(
+            icon: Icons.home,
+            text: 'Home',
+          ),
+          GButton(
+            icon: Icons.location_on,
+            text: 'Location',
+          ),
+          GButton(
+            icon: Icons.message,
+            text: 'Message',
+          ),
+          GButton(
+            icon: Icons.car_crash_rounded,
+            text: 'My Car',
+          ),
+        ]);
   }
 }
