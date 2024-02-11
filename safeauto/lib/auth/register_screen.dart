@@ -1,7 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:safeauto/screens/finger_print_screen.dart';
+// import 'package:safeauto/screens/finger_print_screen.dart';
 import 'package:safeauto/auth/login_screen.dart';
 import 'package:safeauto/auth/widget/text_button.dart';
 import 'package:safeauto/auth/widget/textformfield.dart';

@@ -32,6 +32,34 @@ class _LoginScreenState extends State<LoginScreen> {
     googleSignIn.signOut();
   }
 
+  Future signInWithGoogle() async {
+    // Trigger the authentication flow
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      // Once signed in, return the UserCredential
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const FingerPrint(),
+        ),
+      );
+    } catch (e) {
+      print('======================Google authentication failed: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -193,37 +221,39 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(width: 8.0),
                     SizedBox(height: 10),
                     InkWell(
-                      onTap: () async {
+                      onTap: () {
+                        signInWithGoogle();
                         // Google Sign-In logic
-                        try {
-                          final GoogleSignInAccount? googleUser =
-                              await googleSignIn.signIn();
-                          final GoogleSignInAuthentication googleAuth =
-                              await googleUser!.authentication;
-                          final AuthCredential credential =
-                              GoogleAuthProvider.credential(
-                            accessToken: googleAuth.accessToken,
-                            idToken: googleAuth.idToken,
-                          );
+                        // try {
+                        //   final GoogleSignInAccount? googleUser =
+                        //       await googleSignIn.signIn();
+                        //   final GoogleSignInAuthentication googleAuth =
+                        //       await googleUser!.authentication;
+                        //   final AuthCredential credential =
+                        //       GoogleAuthProvider.credential(
+                        //     accessToken: googleAuth.accessToken,
+                        //     idToken: googleAuth.idToken,
+                        //   );
 
-                          final UserCredential authResult =
-                              await _auth.signInWithCredential(credential);
-                          final User? user = authResult.user;
+                        //   final UserCredential authResult =
+                        //       await _auth.signInWithCredential(credential);
+                        //   final User? user = authResult.user;
 
-                          print(
-                              'Google authentication successful: ${user?.displayName}');
+                        //   print(
+                        //       'Google authentication successful: ${user?.displayName}');
 
-                          // Navigate to the home screen or perform other actions as needed
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const FingerPrint(),
-                            ),
-                          );
-                        } catch (error) {
-                          print('Google authentication failed: $error');
-                          // Handle authentication failure, show an error message if needed
-                        }
+                        //   // Navigate to the home screen or perform other actions as needed
+                        //   Navigator.pushReplacement(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => const FingerPrint(),
+                        //     ),
+                        //   );
+                        // } catch (error) {
+                        //   print(
+                        //       '======================Google authentication failed: $error');
+                        //   // Handle authentication failure, show an error message if needed
+                        // }
                       },
                       child: googleContainer(),
                     ),
