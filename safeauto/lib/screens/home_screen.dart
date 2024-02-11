@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:lottie/lottie.dart';
 import 'package:safeauto/screens/message_screen.dart';
@@ -10,60 +14,26 @@ import 'package:safeauto/screens/test.dart';
 import '../auth/login_screen.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<CardItem> cardItems = [
-    CardItem(
-      title: 'Doors',
-      subtitle: 'Control the doors',
-      backgroundColor: const Color(0xFF00E5F9),
-      textColor: Colors.black,
-      switchColor: const Color(0xFF00E5F9),
-      switchBallColor: const Color(0xFF030F1B),
-    ),
-    CardItem(
-      title: 'Trunk',
-      subtitle: 'Open or close the trunk',
-      backgroundColor: const Color(0xFF062A3A),
-      textColor: Colors.white,
-      switchColor: const Color(0xFF062A3A),
-      switchBallColor: const Color(0xFF346977),
-    ),
-    CardItem(
-      title: 'Engine',
-      subtitle: 'Start or stop the engine',
-      backgroundColor: const Color(0xFF062A3A),
-      textColor: Colors.white,
-      switchColor: const Color(0xFF062A3A),
-      switchBallColor: const Color(0xFF346977),
-    ),
-    CardItem(
-      title: 'Climate',
-      subtitle: 'Adjust the climate settings',
-      backgroundColor: const Color(0xFF00E5F9),
-      textColor: Colors.black,
-      switchColor: const Color(0xFF00E5F9),
-      switchBallColor: const Color(0xFF030F1B),
-    ),
-  ];
+  final List<bool> switchStates = [false, false, false, false];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff030A10),
-      //  Color.fromARGB(255, 17, 98, 129),
-      body: Column(
-        children: [
-          SizedBox(
-            height: 15,
-          ),
-          Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 15),
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
                 onPressed: () async {
                   await FirebaseAuth.instance.signOut();
                   Navigator.pushReplacement(
@@ -77,30 +47,87 @@ class _HomePageState extends State<HomePage> {
                   Icons.exit_to_app,
                   color: Colors.white,
                   size: 25,
-                )),
-          ),
-          Container(
-            height: 200,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.contain,
-                image: AssetImage(
-                  // 'assets/photo_2023-09-23_19-49-27.jpg',
-                  // 'assets/photo_2023-09-23_19-49-23.jpg',
-                  // 'assets/photo_2023-09-23_19-49-00.jpg',
-                  // 'assets/photo_2023-09-25_04-33-24.jpg',
-                  'assets/istockphoto-1406257864-612x612.jpg',
                 ),
               ),
             ),
-          ),
-          Container(
-            // color: Colors.blue,
-            child: Align(
+            Container(
+              height: 200,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.contain,
+                  image: AssetImage(
+                    'assets/istockphoto-1406257864-612x612.jpg',
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              child: Align(
                 alignment: Alignment.bottomCenter,
-                child: CardWidget(cardItems: cardItems)),
-          ),
-        ],
+                child: CardWidget(
+                  cardItems: [
+                    CardItem(
+                      title: 'Doors',
+                      subtitle: 'Control the doors',
+                      backgroundColor: const Color(0xFF00E5F9),
+                      textColor: Colors.black,
+                      switchColor: const Color(0xFF00E5F9),
+                      switchBallColor: const Color(0xFF030F1B),
+                      isSwitchOn: switchStates[0],
+                      onChange: (newValue) {
+                        setState(() {
+                          switchStates[0] = newValue;
+                        });
+                      },
+                    ),
+                    CardItem(
+                      title: 'Trunk',
+                      subtitle: 'Open or close the trunk',
+                      backgroundColor: const Color(0xFF062A3A),
+                      textColor: Colors.white,
+                      switchColor: const Color(0xFF062A3A),
+                      switchBallColor: const Color(0xFF346977),
+                      isSwitchOn: switchStates[1],
+                      onChange: (newValue) {
+                        setState(() {
+                          switchStates[1] = newValue;
+                        });
+                      },
+                    ),
+                    CardItem(
+                      title: 'Engine',
+                      subtitle: 'Start or stop the engine',
+                      backgroundColor: const Color(0xFF062A3A),
+                      textColor: Colors.white,
+                      switchColor: const Color(0xFF062A3A),
+                      switchBallColor: const Color(0xFF346977),
+                      isSwitchOn: switchStates[2],
+                      onChange: (newValue) {
+                        setState(() {
+                          switchStates[2] = newValue;
+                        });
+                      },
+                    ),
+                    CardItem(
+                      title: 'Climate',
+                      subtitle: 'Adjust the climate settings',
+                      backgroundColor: const Color(0xFF00E5F9),
+                      textColor: Colors.black,
+                      switchColor: const Color(0xFF00E5F9),
+                      switchBallColor: const Color(0xFF030F1B),
+                      isSwitchOn: switchStates[3],
+                      onChange: (newValue) {
+                        setState(() {
+                          switchStates[3] = newValue;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: Container(
         color: const Color.fromARGB(255, 4, 22, 29),
@@ -115,7 +142,7 @@ class _HomePageState extends State<HomePage> {
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({
-    super.key,
+    Key? key,
   });
 
   @override
