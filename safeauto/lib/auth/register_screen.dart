@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:safeauto/screens/finger_print_screen.dart';
@@ -17,7 +18,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final TextEditingController _passwordController = TextEditingController();
 
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool showEmailError = false;
 
@@ -132,77 +133,92 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(height: 30.0),
                       MyInkWellButton(
                         onTap: () async {
-                          // try {
-                          //   final UserCredential userCredential = await FirebaseAuth.instance
-                          //       .createUserWithEmailAndPassword(
-                          //     email: _emailController.text,
-                          //     password: _passwordController.text,
-                          //   );
+                          setState(() {
+                            showEmailError = true;
+                            showPasswordError = true;
+                          });
 
-                          //   Navigator.pushReplacement(
+                          if (_formKey.currentState!.validate()) {
+                            try {
+                              final credential = await FirebaseAuth.instance
+                                  .createUserWithEmailAndPassword(
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                              );
+
+                              FirebaseAuth.instance.currentUser!
+                                  .sendEmailVerification();
+
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginScreen(),
+                                ),
+                              );
+                            } on FirebaseAuthException catch (e) {
+                              String errorMessage = 'An error occurred';
+                              if (e.code == 'weak-password') {
+                                errorMessage =
+                                    'The password provided is too weak.';
+                              } else if (e.code == 'email-already-in-use') {
+                                errorMessage =
+                                    'The account already exists for that email.';
+                              } else {
+                                errorMessage = e.message ?? 'An error occurred';
+                              }
+
+                              showAwesomeDialog(errorMessage);
+                            }
+                          }
+
+                          // setState(() {
+                          //   showEmailError = true;
+                          //   showPasswordError = true;
+                          // });
+                          // if (_formKey.currentState?.validate() ?? false) {
+                          //   try {
+                          //     // Check if the user already exists
+                          //     UserCredential userCredential = await FirebaseAuth
+                          //         .instance
+                          //         .createUserWithEmailAndPassword(
+                          //       email: _emailController.text.trim(),
+                          //       password: _passwordController.text,
+                          //     );
+
+                          //     // Check if the user has registered with email/password
+                          //     if (userCredential.user != null &&
+                          //         userCredential.user!.providerData.any(
+                          //             (userInfo) =>
+                          //                 userInfo.providerId == "password")) {
+                          //       // User has registered with email/password
+                          //       Navigator.pushReplacement(
                           //         context,
                           //         MaterialPageRoute(
                           //           builder: (context) => const FingerPrint(),
                           //         ),
                           //       );
-                          // } on FirebaseAuthException catch (e) {
-                          //   if (e.code == 'weak-password') {
-                          //     print('The password provided is too weak.');
-                          //   } else if (e.code == 'email-already-in-use') {
-                          //     print('The account already exists for that email.');
+                          //     } else {
+                          //       // User did not register with email/password
+                          //       await FirebaseAuth.instance.currentUser
+                          //           ?.delete();
+                          //       ScaffoldMessenger.of(context).showSnackBar(
+                          //         const SnackBar(
+                          //           content: Text(
+                          //               'Registration failed. Please use email/password registration.'),
+                          //         ),
+                          //       );
+                          //     }
+                          //   } catch (error) {
+                          //     print(
+                          //         'Email/password registration failed: $error');
+                          //     // Handle registration failure, show an error message if needed
+                          //     ScaffoldMessenger.of(context).showSnackBar(
+                          //       const SnackBar(
+                          //         content: Text('Registration failed.'),
+                          //       ),
+                          //     );
                           //   }
-                          // } catch (e) {
-                          //   print(e);
                           // }
-
-                          setState(() {
-                            showEmailError = true;
-                            showPasswordError = true;
-                          });
-                          if (_formKey.currentState?.validate() ?? false) {
-                            try {
-                              // Check if the user already exists
-                              UserCredential userCredential = await FirebaseAuth
-                                  .instance
-                                  .createUserWithEmailAndPassword(
-                                email: _emailController.text.trim(),
-                                password: _passwordController.text,
-                              );
-
-                              // Check if the user has registered with email/password
-                              if (userCredential.user != null &&
-                                  userCredential.user!.providerData.any(
-                                      (userInfo) =>
-                                          userInfo.providerId == "password")) {
-                                // User has registered with email/password
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const FingerPrint(),
-                                  ),
-                                );
-                              } else {
-                                // User did not register with email/password
-                                await FirebaseAuth.instance.currentUser
-                                    ?.delete();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                        'Registration failed. Please use email/password registration.'),
-                                  ),
-                                );
-                              }
-                            } catch (error) {
-                              print(
-                                  'Email/password registration failed: $error');
-                              // Handle registration failure, show an error message if needed
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Registration failed.'),
-                                ),
-                              );
-                            }
-                          }
                         },
                         buttonColor: Color.fromARGB(255, 64, 248, 255),
                         buttonText: "Sign Up",
@@ -243,5 +259,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+
+  void showAwesomeDialog(String errorMessage) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.error,
+      animType: AnimType.rightSlide,
+      title: 'Error',
+      desc: errorMessage,
+    )..show();
   }
 }

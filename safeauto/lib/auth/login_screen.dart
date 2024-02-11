@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:safeauto/screens/finger_print_screen.dart';
-// import 'package:safeauto/screens/home_screen.dart';
 import 'package:safeauto/auth/register_screen.dart';
 import 'package:safeauto/auth/widget/google_container.dart';
 import 'package:safeauto/auth/widget/text_button.dart';
@@ -21,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool showEmailError = false;
   bool showPasswordError = false;
 
@@ -126,22 +125,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           showEmailError = true;
                           showPasswordError = true;
                         });
-                        if (_formKey.currentState?.validate() ?? false) {
+                        if (_formKey.currentState!.validate()) {
                           try {
-                            final UserCredential authResult =
-                                await _auth.signInWithEmailAndPassword(
-                                    email: _emailController.text.trim(),
+                            final credential = await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                                    email: _emailController.text,
                                     password: _passwordController.text);
-                            final User? user = authResult.user;
 
-                            // Print the user information for debugging
-                            print('User Info: $user');
-
-                            // Check if the user has registered with email/password
-                            if (user != null &&
-                                user.providerData.any((userInfo) =>
-                                    userInfo.providerId == "password")) {
-                              // User has registered with email/password
+                            if (credential.user!.emailVerified) {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
@@ -149,40 +140,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               );
                             } else {
-                              AwesomeDialog(
-                                context: context,
-                                dialogType: DialogType.error,
-                                animType: AnimType.rightSlide,
-                                title: 'Error',
-                                desc: 'Invalid email or password.',
-                                // btnCancelOnPress: () {},
-                                // btnOkOnPress: () {},
-                              )..show();
-                              // User did not register with email/password
-                              // ScaffoldMessenger.of(context).showSnackBar(
-                              //   const SnackBar(
-                              //     content: Text('Invalid email or password.'),
-                              //   ),
-                              // );
+                              showAwesomeDialog(
+                                  'Verify Your Email And Return Login');
                             }
-                          } catch (error) {
-                            print(
-                                'Email/password authentication failed: $error');
-                            // Handle authentication failure, show an error message if needed
-                            AwesomeDialog(
-                              context: context,
-                              dialogType: DialogType.error,
-                              animType: AnimType.rightSlide,
-                              title: 'Error',
-                              desc: 'Invalid email or password.',
-                              // btnCancelOnPress: () {},
-                              // btnOkOnPress: () {},
-                            )..show();
-                            // ScaffoldMessenger.of(context).showSnackBar(
-                            //   const SnackBar(
-                            //     content: Text('Invalid email or password.'),
-                            //   ),
-                            // );
+                          } on FirebaseAuthException catch (e) {
+                            String errorMessage = 'An error occurred';
+                            if (e.code == 'user-not-found') {
+                              errorMessage = 'No user found for that email.';
+                            } else if (e.code == 'wrong-password') {
+                              errorMessage =
+                                  'Wrong password provided for that user.';
+                            } else {
+                              errorMessage = e.message ?? 'An error occurred';
+                            }
+                            showAwesomeDialog(errorMessage);
                           }
                         }
                       },
@@ -264,5 +235,15 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void showAwesomeDialog(String errorMessage) {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.error,
+      animType: AnimType.rightSlide,
+      title: 'Error',
+      desc: errorMessage,
+    )..show();
   }
 }

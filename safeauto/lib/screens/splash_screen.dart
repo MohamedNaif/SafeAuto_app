@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen>
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    FirebaseAuth.instance.currentUser == null
+                                    FirebaseAuth.instance.currentUser == null &&  FirebaseAuth.instance.currentUser!.emailVerified == false
                                         ? onBoardingScreen()
                                         : FingerPrint()));
         //================================================
