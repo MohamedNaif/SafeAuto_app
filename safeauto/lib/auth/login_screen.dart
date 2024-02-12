@@ -17,25 +17,29 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final GoogleSignIn googleSignIn = GoogleSignIn();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool showEmailError = false;
   bool showPasswordError = false;
 
-  @override
-  void initState() {
-    super.initState();
-    // Sign out when the app starts
-    _auth.signOut();
-    googleSignIn.signOut();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // Sign out when the app starts
+  //   _auth.signOut();
+  //   googleSignIn.signOut();
+  // }
 
   Future signInWithGoogle() async {
     // Trigger the authentication flow
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser == null) {
+        return;
+      }
 
       // Obtain the auth details from the request
       final GoogleSignInAuthentication? googleAuth =

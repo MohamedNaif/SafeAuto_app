@@ -14,6 +14,7 @@ import 'package:safeauto/screens/message_screen.dart';
 // import 'package:safeauto/screens/test.dart';
 
 import '../auth/login_screen.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key});
@@ -39,6 +40,8 @@ class _HomePageState extends State<HomePage> {
               alignment: Alignment.topRight,
               child: IconButton(
                 onPressed: () async {
+                  GoogleSignIn googleSignIn = GoogleSignIn();
+                  googleSignIn.disconnect();
                   await FirebaseAuth.instance.signOut();
                   Navigator.pushReplacement(
                     context,
