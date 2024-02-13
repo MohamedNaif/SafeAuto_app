@@ -17,52 +17,11 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final GoogleSignIn googleSignIn = GoogleSignIn();
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool showEmailError = false;
   bool showPasswordError = false;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // Sign out when the app starts
-  //   _auth.signOut();
-  //   googleSignIn.signOut();
-  // }
-
-  Future signInWithGoogle() async {
-    // Trigger the authentication flow
-    try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-      if (googleUser == null) {
-        return;
-      }
-
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-
-      // Once signed in, return the UserCredential
-      await FirebaseAuth.instance.signInWithCredential(credential);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const FingerPrint(),
-        ),
-      );
-    } catch (e) {
-      print('======================Google authentication failed: $e');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -149,6 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         return null;
                       },
                     ),
+
                     const SizedBox(height: 6),
                     const SizedBox(height: 6),
                     MyInkWellButton(
@@ -196,6 +156,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                     const SizedBox(height: 12),
+                    InkWell(
+                      onTap: () {
+                        // Navigate to Forgot Password screen or implement logic to send password reset email
+                        // For now, let's just print a message
+                        print("Forgot Password tapped");
+                      },
+                      child: const Text(
+                        "Forgot Password",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 64, 248, 255),
+                        ),
+                      ),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -218,6 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
+                        SizedBox(width: 16), // Added space
                       ],
                     ),
                     const SizedBox(height: 16.0), // Added space
@@ -226,38 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 10),
                     InkWell(
                       onTap: () {
-                        signInWithGoogle();
-                        // Google Sign-In logic
-                        // try {
-                        //   final GoogleSignInAccount? googleUser =
-                        //       await googleSignIn.signIn();
-                        //   final GoogleSignInAuthentication googleAuth =
-                        //       await googleUser!.authentication;
-                        //   final AuthCredential credential =
-                        //       GoogleAuthProvider.credential(
-                        //     accessToken: googleAuth.accessToken,
-                        //     idToken: googleAuth.idToken,
-                        //   );
-
-                        //   final UserCredential authResult =
-                        //       await _auth.signInWithCredential(credential);
-                        //   final User? user = authResult.user;
-
-                        //   print(
-                        //       'Google authentication successful: ${user?.displayName}');
-
-                        //   // Navigate to the home screen or perform other actions as needed
-                        //   Navigator.pushReplacement(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => const FingerPrint(),
-                        //     ),
-                        //   );
-                        // } catch (error) {
-                        //   print(
-                        //       '======================Google authentication failed: $error');
-                        //   // Handle authentication failure, show an error message if needed
-                        // }
+                        // signInWithGoogle();
                       },
                       child: googleContainer(),
                     ),
