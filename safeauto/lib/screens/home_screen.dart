@@ -16,6 +16,8 @@ import 'package:safeauto/screens/message_screen.dart';
 import '../auth/login_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'user_profile.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key});
 
@@ -193,6 +195,15 @@ class BottomNavBar extends StatelessWidget {
               ),
             );
           }
+          if (index == 3) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => UserProfileScreen(),
+              ),
+            );
+          }
+
           print(index);
         },
         padding: const EdgeInsets.all(16),

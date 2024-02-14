@@ -6,6 +6,9 @@ import 'package:safeauto/auth/login_screen.dart';
 import 'package:safeauto/auth/widget/text_button.dart';
 import 'package:safeauto/auth/widget/textformfield.dart';
 
+final TextEditingController emailController = TextEditingController();
+final TextEditingController userName = TextEditingController();
+
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({Key? key});
 
@@ -14,8 +17,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final TextEditingController _emailController = TextEditingController();
-
   final TextEditingController _passwordController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -97,11 +98,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         icons: IconButton(
                           onPressed: () {},
                           icon: Icon(
+                            Icons.person,
+                            color: Color.fromARGB(255, 64, 248, 255),
+                          ),
+                        ),
+                        controller: userName,
+                        labelText: 'User Name',
+                        validator: (value) {
+                          if (showEmailError &&
+                              (value == null || value.isEmpty)) {
+                            return 'Please enter your Name.';
+                          }
+                          return null;
+                        },
+                      ),
+                      MyTextFormField(
+                        icons: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
                             Icons.email,
                             color: Color.fromARGB(255, 64, 248, 255),
                           ),
                         ),
-                        controller: _emailController,
+                        controller: emailController,
                         labelText: 'Email',
                         validator: (value) {
                           if (showEmailError &&
@@ -142,7 +161,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             try {
                               final credential = await FirebaseAuth.instance
                                   .createUserWithEmailAndPassword(
-                                email: _emailController.text,
+                                email: emailController.text,
                                 password: _passwordController.text,
                               );
 
@@ -171,54 +190,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             }
                           }
 
-                          // setState(() {
-                          //   showEmailError = true;
-                          //   showPasswordError = true;
-                          // });
-                          // if (_formKey.currentState?.validate() ?? false) {
-                          //   try {
-                          //     // Check if the user already exists
-                          //     UserCredential userCredential = await FirebaseAuth
-                          //         .instance
-                          //         .createUserWithEmailAndPassword(
-                          //       email: _emailController.text.trim(),
-                          //       password: _passwordController.text,
-                          //     );
-
-                          //     // Check if the user has registered with email/password
-                          //     if (userCredential.user != null &&
-                          //         userCredential.user!.providerData.any(
-                          //             (userInfo) =>
-                          //                 userInfo.providerId == "password")) {
-                          //       // User has registered with email/password
-                          //       Navigator.pushReplacement(
-                          //         context,
-                          //         MaterialPageRoute(
-                          //           builder: (context) => const FingerPrint(),
-                          //         ),
-                          //       );
-                          //     } else {
-                          //       // User did not register with email/password
-                          //       await FirebaseAuth.instance.currentUser
-                          //           ?.delete();
-                          //       ScaffoldMessenger.of(context).showSnackBar(
-                          //         const SnackBar(
-                          //           content: Text(
-                          //               'Registration failed. Please use email/password registration.'),
-                          //         ),
-                          //       );
-                          //     }
-                          //   } catch (error) {
-                          //     print(
-                          //         'Email/password registration failed: $error');
-                          //     // Handle registration failure, show an error message if needed
-                          //     ScaffoldMessenger.of(context).showSnackBar(
-                          //       const SnackBar(
-                          //         content: Text('Registration failed.'),
-                          //       ),
-                          //     );
-                          //   }
-                          // }
+                          
                         },
                         buttonColor: Color.fromARGB(255, 64, 248, 255),
                         buttonText: "Sign Up",

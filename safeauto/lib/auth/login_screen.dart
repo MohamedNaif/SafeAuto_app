@@ -9,7 +9,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({Key? key}) : super(key: key);
+  
+  LoginScreen({Key? key,}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -159,7 +160,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     InkWell(
                       onTap: () async {
                         if (_emailController.text == '') {
-                          showAwesomeDialog('الرجاء كتابة بريدك الإلكتروني اولا');
+                          showAwesomeDialog(
+                              'الرجاء كتابة بريدك الإلكتروني اولا');
                           return;
                         }
                         try {
