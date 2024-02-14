@@ -157,10 +157,28 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 12),
                     InkWell(
-                      onTap: () {
-                        // Navigate to Forgot Password screen or implement logic to send password reset email
-                        // For now, let's just print a message
-                        print("Forgot Password tapped");
+                      onTap: () async {
+                        if (_emailController.text == '') {
+                          showAwesomeDialog('الرجاء كتابة بريدك الإلكتروني اولا');
+                          return;
+                        }
+                        try {
+                          await FirebaseAuth.instance.sendPasswordResetEmail(
+                              email: _emailController.text);
+
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.info,
+                            animType: AnimType.rightSlide,
+                            title: 'Info',
+                            desc:
+                                'الرجاء التحقق من بريدك الإلكتروني لتعيين كلمة مرور جديدة',
+                          )..show();
+                        } catch (e) {
+                          showAwesomeDialog('$e');
+                        }
+
+                        // print("Forgot Password tapped");
                       },
                       child: const Text(
                         "Forgot Password",

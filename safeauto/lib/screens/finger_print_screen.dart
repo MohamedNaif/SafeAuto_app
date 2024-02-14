@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
@@ -57,6 +58,14 @@ class _FingerPrintState extends State<FingerPrint> {
                         builder: (context) =>
                             HomePage()), // Replace with your home screen widget
                   );
+                } else {
+                  AwesomeDialog(
+                    context: context,
+                    dialogType: DialogType.error,
+                    animType: AnimType.rightSlide,
+                    title: 'Error',
+                    desc: 'الرجاء إضافة البصمة اولا في اعدادات الجهاز',
+                  )..show();
                 }
                 // Navigate to the home screen
               },
