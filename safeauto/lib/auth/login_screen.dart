@@ -9,20 +9,50 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
-  
-  LoginScreen({Key? key,}) : super(key: key);
-
+  LoginScreen({Key? key}) : super(key: key);
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   final GoogleSignIn googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool showEmailError = false;
   bool showPasswordError = false;
+
+  Future signInWithGoogle() async {
+    // Trigger the authentication flow
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser == null) {
+        return;
+      }
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser.authentication;
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+      // Once signed in, return the UserCredential
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const FingerPrint(),
+        ),
+      );
+    } catch (e) {
+      print('======================Google authentication failed: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +139,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         return null;
                       },
                     ),
-
                     const SizedBox(height: 6),
                     const SizedBox(height: 6),
                     MyInkWellButton(
@@ -124,7 +153,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 .signInWithEmailAndPassword(
                                     email: _emailController.text,
                                     password: _passwordController.text);
-
                             if (credential.user!.emailVerified) {
                               Navigator.pushReplacement(
                                 context,
@@ -157,39 +185,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                     const SizedBox(height: 12),
-                    InkWell(
-                      onTap: () async {
-                        if (_emailController.text == '') {
-                          showAwesomeDialog(
-                              'الرجاء كتابة بريدك الإلكتروني اولا');
-                          return;
-                        }
-                        try {
-                          await FirebaseAuth.instance.sendPasswordResetEmail(
-                              email: _emailController.text);
-
-                          AwesomeDialog(
-                            context: context,
-                            dialogType: DialogType.info,
-                            animType: AnimType.rightSlide,
-                            title: 'Info',
-                            desc:
-                                'الرجاء التحقق من بريدك الإلكتروني لتعيين كلمة مرور جديدة',
-                          )..show();
-                        } catch (e) {
-                          showAwesomeDialog('$e');
-                        }
-
-                        // print("Forgot Password tapped");
-                      },
-                      child: const Text(
-                        "Forgot Password",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Color.fromARGB(255, 64, 248, 255),
-                        ),
-                      ),
-                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -212,16 +207,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 16), // Added space
                       ],
                     ),
                     const SizedBox(height: 16.0), // Added space
-
                     SizedBox(width: 8.0),
                     SizedBox(height: 10),
                     InkWell(
                       onTap: () {
-                        // signInWithGoogle();
+                        signInWithGoogle();
                       },
                       child: googleContainer(),
                     ),
