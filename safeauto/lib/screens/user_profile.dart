@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:path/path.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,7 +23,7 @@ class UserProfileScreen extends StatefulWidget {
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
   List<File> _selectedImages = [];
-  late File _selectedImage = File('assets/default_avatar.png');
+
   List<String> _imageUrls = [];
 
   @override
@@ -30,39 +31,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     super.initState();
     // Fetch and set images URLs when the widget is initialized
     fetchAndSetImageUrls();
-    loadSelectedImage(_selectedImage);
-  }
-
-  Future<void> loadSelectedImage(File selectedImage) async {
-    try {
-      // Get the directory for the user's local storage
-      Directory appDir = await getApplicationDocumentsDirectory();
-      String appDirPath = appDir.path;
-
-      // Construct the file path of the selected image in the local storage
-      String fileName = 'selected_image.png'; // Adjust the file name as needed
-      String localImagePath = '$appDirPath/$fileName';
-
-      // Check if the image file exists in local storage
-      File imageFile = File(localImagePath);
-      if (await imageFile.exists()) {
-        // If the image file exists, set it as the selected image
-        setState(() {
-          _selectedImage = imageFile;
-        });
-      } else {
-        // If the image file does not exist, set the default avatar image
-        setState(() {
-          _selectedImage = File('assets/default_avatar.png');
-        });
-      }
-    } catch (e) {
-      print('Failed to load selected image: $e');
-      // Set the default avatar image in case of any errors
-      setState(() {
-        _selectedImage = File('assets/default_avatar.png');
-      });
-    }
   }
 
   Future<void> fetchAndSetImageUrls() async {
@@ -94,9 +62,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     final XFile? image = await picker.pickImage(source: source);
     if (image != null) {
       setState(() {
-        _selectedImage = File(image.path);
         _selectedImages.add(File(image.path));
-        loadSelectedImage(_selectedImage);
       });
     }
   }
@@ -166,74 +132,32 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  height: 350,
+                  height: 320,
                   width: 300,
                   child: Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(30))),
-                    color: const Color(0xFF00E5F9),
+                    color: Color.fromARGB(44, 74, 91, 92),
                     child: Padding(
                       padding: EdgeInsets.all(20.0),
                       child: Column(
                         children: [
-                          GestureDetector(
-                            onTap: () async {
-                              showModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return SafeArea(
-                                    child: Wrap(
-                                      children: <Widget>[
-                                        ListTile(
-                                          leading: Icon(Icons.photo_library),
-                                          title: Text('Choose from gallery'),
-                                          onTap: () async {
-                                            await getImage(ImageSource.gallery);
-
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                        ListTile(
-                                          leading: Icon(Icons.photo_camera),
-                                          title: Text('Take a picture'),
-                                          onTap: () async {
-                                            await getImage(ImageSource.camera);
-
-                                            // Fetch and set image URLs again
-                                            await fetchAndSetImageUrls();
-
-                                            Navigator.pop(context);
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: const Color(0xFF062A3A),
-                              radius: 55,
-                              child: CircleAvatar(
-                                  radius: 50,
-                                  backgroundImage: FileImage(_selectedImage)),
-                            ),
-                          ),
-                          SizedBox(height: 20),
-                          Text(
-                            userName.text, // User's name
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
                           SizedBox(height: 10),
+                          Icon(
+                            size: 40,
+                            Icons.assignment_ind_rounded,
+                            color: const Color(0xFF00E5F9),
+                          ),
+                          SizedBox(height: 5),
                           Text(
                             email, // User's email
                             style: TextStyle(
-                              fontSize: 18,
-                            ),
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
                           ),
+                          SizedBox(height: 15),
+                          CarStatusOfMyCar()
                         ],
                       ),
                     ),
@@ -312,6 +236,102 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class CarStatus {
+  final bool isDoorOpen;
+  final bool isEngineOn;
+
+  CarStatus({
+    required this.isDoorOpen,
+    required this.isEngineOn,
+  });
+}
+
+class CarStatusOfMyCar extends StatefulWidget {
+  @override
+  State<CarStatusOfMyCar> createState() => _CarStatusOfMyCarState();
+}
+
+class _CarStatusOfMyCarState extends State<CarStatusOfMyCar> {
+  late Stream<DocumentSnapshot<Map<String, dynamic>>> _carStatusStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _carStatusStream = FirebaseFirestore.instance
+        .collection('carStatus')
+        .doc('status')
+        .snapshots();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 170, // Set a fixed height to avoid infinite size error
+      child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        stream: _carStatusStream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          if (!snapshot.hasData || snapshot.data?.data() == null) {
+            return Center(child: Text('No data available'));
+          }
+          final carStatusData = snapshot.data!.data()!;
+          final carStatus = CarStatus(
+            isDoorOpen: carStatusData['isDoorOpen'] ?? false,
+            isEngineOn: carStatusData['isEngineOn'] ?? false,
+          );
+          return Column(
+            children: [
+              ListTile(
+                title: Text(
+                  'Door Status: ${carStatus.isDoorOpen ? 'Open' : 'Closed'}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                trailing: Icon(Icons.directions_car),
+                subtitle: Text(
+                  "Your Current Door Status is ${carStatus.isDoorOpen ? 'Open' : 'Closed'}",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              ListTile(
+                title: Text(
+                  'Engine Status: ${carStatus.isEngineOn ? 'On' : 'Off'}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                trailing: Icon(Icons.directions_car),
+                subtitle: Text(
+                  "Your Current Engine Status is ${carStatus.isEngineOn ? 'Open' : 'Closed'}",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

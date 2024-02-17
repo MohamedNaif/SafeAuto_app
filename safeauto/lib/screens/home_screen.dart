@@ -70,6 +70,9 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+            SizedBox(
+              height: 50,
+            ),
             Container(
               child: Align(
                 alignment: Alignment.bottomCenter,
@@ -227,3 +230,7 @@ class BottomNavBar extends StatelessWidget {
         ]);
   }
 }
+
+
+
+
