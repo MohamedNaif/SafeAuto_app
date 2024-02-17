@@ -92,23 +92,23 @@ class _HomePageState extends State<HomePage> {
                         });
                       },
                     ),
-                    CardItem(
-                      title: 'Trunk',
-                      subtitle: 'Open or close the trunk',
-                      backgroundColor: const Color(0xFF062A3A),
-                      textColor: Colors.white,
-                      switchColor: const Color(0xFF062A3A),
-                      switchBallColor: const Color(0xFF346977),
-                      isSwitchOn: switchStates[1],
-                      onChange: (newValue) {
-                        setState(() {
-                          switchStates[1] = newValue;
-                          if (newValue == true) {
-                            _updateFirestoreData('Trunk', 'Open');
-                          }
-                        });
-                      },
-                    ),
+                    // CardItem(
+                    //   title: 'Trunk',
+                    //   subtitle: 'Open or close the trunk',
+                    //   backgroundColor: const Color(0xFF062A3A),
+                    //   textColor: Colors.white,
+                    //   switchColor: const Color(0xFF062A3A),
+                    //   switchBallColor: const Color(0xFF346977),
+                    //   isSwitchOn: switchStates[1],
+                    //   onChange: (newValue) {
+                    //     setState(() {
+                    //       switchStates[1] = newValue;
+                    //       if (newValue == true) {
+                    //         _updateFirestoreData('Trunk', 'Open');
+                    //       }
+                    //     });
+                    //   },
+                    // ),
                     CardItem(
                       title: 'Engine',
                       subtitle: 'Start or stop the engine',
@@ -126,23 +126,23 @@ class _HomePageState extends State<HomePage> {
                         });
                       },
                     ),
-                    CardItem(
-                      title: 'Climate',
-                      subtitle: 'Adjust the climate settings',
-                      backgroundColor: const Color(0xFF00E5F9),
-                      textColor: Colors.black,
-                      switchColor: const Color(0xFF00E5F9),
-                      switchBallColor: const Color(0xFF030F1B),
-                      isSwitchOn: switchStates[3],
-                      onChange: (newValue) {
-                        setState(() {
-                          switchStates[3] = newValue;
-                          if (newValue == true) {
-                            _updateFirestoreData('Climate', 'Adjust');
-                          }
-                        });
-                      },
-                    ),
+                    // CardItem(
+                    //   title: 'Climate',
+                    //   subtitle: 'Adjust the climate settings',
+                    //   backgroundColor: const Color(0xFF00E5F9),
+                    //   textColor: Colors.black,
+                    //   switchColor: const Color(0xFF00E5F9),
+                    //   switchBallColor: const Color(0xFF030F1B),
+                    //   isSwitchOn: switchStates[3],
+                    //   onChange: (newValue) {
+                    //     setState(() {
+                    //       switchStates[3] = newValue;
+                    //       if (newValue == true) {
+                    //         _updateFirestoreData('Climate', 'Adjust');
+                    //       }
+                    //     });
+                    //   },
+                    // ),
                   ],
                 ),
               ),

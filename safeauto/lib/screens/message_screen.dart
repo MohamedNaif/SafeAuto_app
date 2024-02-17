@@ -1,9 +1,11 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:safeauto/screens/home_screen.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatScreen extends StatelessWidget {
   @override
@@ -13,29 +15,27 @@ class ChatScreen extends StatelessWidget {
         child: Scaffold(
           body: Container(
             decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(
-                        'assets/ville-kaisla-HNCSCpWrVJA-unsplash.jpg'),
-                    fit: BoxFit.cover)),
+              image: DecorationImage(
+                image:
+                    AssetImage('assets/ville-kaisla-HNCSCpWrVJA-unsplash.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ),
             child: Container(
               color: const Color.fromARGB(224, 36, 37, 57),
-              child: Column(children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                chatUi()
-              ]),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  chatUi(),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
-
-    //   Padding(
-    //     padding: const EdgeInsets.all(8.0),
-    //     child: ChatBubble(),
-    //   ),
-    // );
   }
 }
 
@@ -77,34 +77,10 @@ class chatUi extends StatelessWidget {
   }
 }
 
-// class ChatList extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder(
-//       stream: FirebaseFirestore.instance.collection('chats').snapshots(),
-//       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-//         if (!snapshot.hasData) {
-//           return Center(
-//             child: CircularProgressIndicator(),
-//           );
-//         }
-
-//         List<ChatModel> messages = snapshot.data!.docs
-//             .map((doc) => ChatModel.fromMap(doc.data() as Map<String, dynamic>))
-//             .toList();
-
-//         return ListView.builder(
-//           itemCount: messages.length,
-//           itemBuilder: (context, index) {
-//             return ChatBubble(message: messages[index]);
-//           },
-//         );
-//       },
-//     );
-//   }
-// }
-
 class ChatBubble2 extends StatefulWidget {
+  final String? userId;
+
+  const ChatBubble2({this.userId});
   @override
   _ChatBubble2State createState() => _ChatBubble2State();
 }
@@ -170,7 +146,17 @@ class _ChatBubble2State extends State<ChatBubble2> {
                               MaterialPageRoute(
                                   builder: (context) => const HomePage()));
                           showResultDialog(false);
-                          // Close the dialog
+
+                          // Add data to Firestore
+                          FirebaseFirestore.instance
+                              .collection('isTrusted')
+                              .add({
+                                'isTrusted': false,
+                                // Add any other data you want to store
+                              })
+                              .then((value) => print("============Added"))
+                              .catchError((error) => print(
+                                  "=========================Failed : $error"));
                         },
                         child: const Text("No"),
                       ),
@@ -181,9 +167,15 @@ class _ChatBubble2State extends State<ChatBubble2> {
                               MaterialPageRoute(
                                   builder: (context) => const HomePage()));
                           showResultDialog(true);
-                          // Close the dialog
-                          // _showTopScreenMessage(context);
-                          // Handle trusted action
+                          FirebaseFirestore.instance
+                              .collection('isTrusted')
+                              .add({
+                                'isTrusted': true,
+                                // Add any other data you want to store
+                              })
+                              .then((value) => print("============Added"))
+                              .catchError((error) => print(
+                                  "=========================Failed : $error"));
                         },
                         child: const Text("Yes"),
                       ),
@@ -194,38 +186,59 @@ class _ChatBubble2State extends State<ChatBubble2> {
             });
           },
           child: isImageFullScreen
-              ? Container(
-                  width: 300,
-                  height: 500,
-                  child: const Image(
-                    fit: BoxFit.fill,
-                    image: AssetImage(
-                      'assets/3.jpg',
-                      // 'assets/download.jpeg',
-                    ),
-                  ),
+              ? FutureBuilder(
+                  future: FirebaseStorage.instance
+                      .ref()
+                      .child("isTrusted/Screenshot (515).png")
+                      .getDownloadURL(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    }
+                    return Container(
+                      width: 300,
+                      height: 500,
+                      child: Image.network(
+                        snapshot.data.toString(),
+                        fit: BoxFit.fill,
+                      ),
+                    );
+                  },
                 )
-              : const Column(
+              : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: 200,
-                      width: 200,
-                      child: Image(
-                        fit: BoxFit.fill,
-                        image: AssetImage(
-                          'assets/3.jpg',
-                          // 'assets/download.jpeg',
-                        ),
-                      ),
-                    ),
+                        height: 200,
+                        width: 200,
+                        child: FutureBuilder(
+                          future: FirebaseStorage.instance
+                              .ref()
+                              .child("isTrusted/Screenshot (515).png")
+                              .getDownloadURL(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(child: CircularProgressIndicator());
+                            }
+                            return Container(
+                              width: 300,
+                              height: 500,
+                              child: Image.network(
+                                snapshot.data.toString(),
+                                fit: BoxFit.fill,
+                              ),
+                            );
+                          },
+                        )),
                     Padding(
                       padding: EdgeInsets.only(top: 8),
                       child: Text(
                         'Is this person trusted?',
                         style: TextStyle(
-                            fontSize: 16.0,
-                            color: Color.fromARGB(255, 255, 255, 255)),
+                          fontSize: 16.0,
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        ),
                       ),
                     ),
                     SizedBox(height: 4.0),

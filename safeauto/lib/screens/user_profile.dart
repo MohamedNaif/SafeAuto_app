@@ -13,6 +13,7 @@ import 'package:image_picker/image_picker.dart'; // Added image_picker import
 import '../auth/login_screen.dart';
 import '../auth/register_screen.dart';
 import 'my_image_screen.dart';
+import 'package:path_provider/path_provider.dart';
 
 class UserProfileScreen extends StatefulWidget {
   @override
@@ -21,6 +22,7 @@ class UserProfileScreen extends StatefulWidget {
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
   List<File> _selectedImages = [];
+  late File _selectedImage = File('assets/default_avatar.png');
   List<String> _imageUrls = [];
 
   @override
@@ -28,6 +30,39 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     super.initState();
     // Fetch and set images URLs when the widget is initialized
     fetchAndSetImageUrls();
+    loadSelectedImage(_selectedImage);
+  }
+
+  Future<void> loadSelectedImage(File selectedImage) async {
+    try {
+      // Get the directory for the user's local storage
+      Directory appDir = await getApplicationDocumentsDirectory();
+      String appDirPath = appDir.path;
+
+      // Construct the file path of the selected image in the local storage
+      String fileName = 'selected_image.png'; // Adjust the file name as needed
+      String localImagePath = '$appDirPath/$fileName';
+
+      // Check if the image file exists in local storage
+      File imageFile = File(localImagePath);
+      if (await imageFile.exists()) {
+        // If the image file exists, set it as the selected image
+        setState(() {
+          _selectedImage = imageFile;
+        });
+      } else {
+        // If the image file does not exist, set the default avatar image
+        setState(() {
+          _selectedImage = File('assets/default_avatar.png');
+        });
+      }
+    } catch (e) {
+      print('Failed to load selected image: $e');
+      // Set the default avatar image in case of any errors
+      setState(() {
+        _selectedImage = File('assets/default_avatar.png');
+      });
+    }
   }
 
   Future<void> fetchAndSetImageUrls() async {
@@ -59,7 +94,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     final XFile? image = await picker.pickImage(source: source);
     if (image != null) {
       setState(() {
+        _selectedImage = File(image.path);
         _selectedImages.add(File(image.path));
+        loadSelectedImage(_selectedImage);
       });
     }
   }
@@ -139,13 +176,47 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       padding: EdgeInsets.all(20.0),
                       child: Column(
                         children: [
-                          CircleAvatar(
-                            backgroundColor: const Color(0xFF062A3A),
-                            radius: 55,
+                          GestureDetector(
+                            onTap: () async {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return SafeArea(
+                                    child: Wrap(
+                                      children: <Widget>[
+                                        ListTile(
+                                          leading: Icon(Icons.photo_library),
+                                          title: Text('Choose from gallery'),
+                                          onTap: () async {
+                                            await getImage(ImageSource.gallery);
+
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                        ListTile(
+                                          leading: Icon(Icons.photo_camera),
+                                          title: Text('Take a picture'),
+                                          onTap: () async {
+                                            await getImage(ImageSource.camera);
+
+                                            // Fetch and set image URLs again
+                                            await fetchAndSetImageUrls();
+
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
                             child: CircleAvatar(
-                              radius: 50,
-                              // backgroundImage: AssetImage(
-                              //     'assets/images/photo_2023-12-14_16-40-34.jpg'),
+                              backgroundColor: const Color(0xFF062A3A),
+                              radius: 55,
+                              child: CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: FileImage(_selectedImage)),
                             ),
                           ),
                           SizedBox(height: 20),
@@ -158,7 +229,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           ),
                           SizedBox(height: 10),
                           Text(
-                            email ?? '', // User's email
+                            email, // User's email
                             style: TextStyle(
                               fontSize: 18,
                             ),
