@@ -1,11 +1,10 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:safeauto/screens/home_screen.dart';
+import 'package:safeauto/home/home_screen.dart';
 
 
-import '../auth/login_screen.dart'; // Import your home screen file
+// Import your home screen file
 
 class FingerPrint extends StatefulWidget {
   const FingerPrint({Key? key});

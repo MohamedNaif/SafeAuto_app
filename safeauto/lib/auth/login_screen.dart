@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:safeauto/screens/finger_print_screen.dart';
+import 'package:safeauto/auth/finger_print_screen.dart';
 import 'package:safeauto/auth/register_screen.dart';
 import 'package:safeauto/auth/widget/google_container.dart';
 import 'package:safeauto/auth/widget/text_button.dart';

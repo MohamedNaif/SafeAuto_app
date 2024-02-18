@@ -1,81 +1,10 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:safeauto/screens/home_screen.dart';
-
-class ChatScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Scaffold(
-          body: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image:
-                    AssetImage('assets/ville-kaisla-HNCSCpWrVJA-unsplash.jpg'),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Container(
-              color: const Color.fromARGB(224, 36, 37, 57),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  chatUi(),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class chatUi extends StatelessWidget {
-  const chatUi({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      child: Stack(
-        children: [
-          Container(
-            // Adjust margin as needed
-            height: 40,
-            width: 40,
-            child: const CircleAvatar(
-              backgroundColor: Colors.black,
-              backgroundImage:
-                  AssetImage('assets/SafeAuto-without-Background.png'),
-            ),
-          ),
-          Row(
-            children: [
-              const SizedBox(
-                width: 40,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 13),
-                child: ChatBubble2(),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
+import 'package:safeauto/home/home_screen.dart';
 
 class ChatBubble2 extends StatefulWidget {
   final String? userId;

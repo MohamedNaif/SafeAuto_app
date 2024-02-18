@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:safeauto/screens/onboarding_screen.dart';
 
 // import '../auth/login_screen.dart';
-import 'finger_print_screen.dart';
+import '../auth/finger_print_screen.dart';
 // import 'home_screen.dart';
 
 // int? initScreen;
