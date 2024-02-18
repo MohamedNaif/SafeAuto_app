@@ -86,12 +86,20 @@ class ChatBubble2 extends StatefulWidget {
 }
 
 class _ChatBubble2State extends State<ChatBubble2> {
-  bool isImageFullScreen = false;
   late Timer _timer;
+  late StreamController<String> _imageStreamController;
+
+  @override
+  void initState() {
+    super.initState();
+    _imageStreamController = StreamController<String>();
+    _updateImageStream();
+  }
 
   @override
   void dispose() {
     _timer.cancel(); // Cancel the timer when the widget is disposed
+    _imageStreamController.close(); // Close the stream controller
     super.dispose();
   }
 
@@ -125,10 +133,6 @@ class _ChatBubble2State extends State<ChatBubble2> {
         ),
         child: GestureDetector(
           onTap: () {
-            setState(() {
-              isImageFullScreen = true;
-            });
-
             // Wait for 5 seconds
             _timer = Timer(const Duration(seconds: 5), () {
               // After 5 seconds, show the dialog
@@ -185,67 +189,63 @@ class _ChatBubble2State extends State<ChatBubble2> {
               );
             });
           },
-          child: isImageFullScreen
-              ? FutureBuilder(
-                  future: FirebaseStorage.instance
-                      .ref()
-                      .child("isTrusted/Screenshot (515).png")
-                      .getDownloadURL(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
-                    }
-                    return Container(
-                      width: 300,
-                      height: 500,
-                      child: Image.network(
-                        snapshot.data.toString(),
-                        fit: BoxFit.fill,
-                      ),
-                    );
-                  },
-                )
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                        height: 200,
-                        width: 200,
-                        child: FutureBuilder(
-                          future: FirebaseStorage.instance
-                              .ref()
-                              .child("isTrusted/Screenshot (515).png")
-                              .getDownloadURL(),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return Center(child: CircularProgressIndicator());
-                            }
-                            return Container(
-                              width: 300,
-                              height: 500,
-                              child: Image.network(
-                                snapshot.data.toString(),
-                                fit: BoxFit.fill,
-                              ),
-                            );
-                          },
-                        )),
-                    Padding(
-                      padding: EdgeInsets.only(top: 8),
-                      child: Text(
-                        'Is this person trusted?',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: Color.fromARGB(255, 255, 255, 255),
-                        ),
-                      ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              StreamBuilder<String>(
+                stream: _imageStreamController.stream,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  return Container(
+                    width: 300,
+                    height: 500,
+                    child: Image.network(
+                      snapshot.data!,
+                      fit: BoxFit.fill,
                     ),
-                    SizedBox(height: 4.0),
-                  ],
+                  );
+                },
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 8),
+                child: Text(
+                  'Is this person trusted?',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  ),
                 ),
+              ),
+              SizedBox(height: 4.0),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  Future<void> _updateImageStream() async {
+    try {
+      // Query Firebase Storage to get the list of files
+      ListResult result =
+          await FirebaseStorage.instance.ref().child("isTrusted").list();
+
+      if (result.items.isNotEmpty) {
+        // Get the latest image file
+        var latestImage = result.items.first;
+
+        // Get the download URL for the latest image
+        String imageUrl = await latestImage.getDownloadURL();
+
+        // Add the image URL to the stream
+        _imageStreamController.add(imageUrl);
+      } else {
+        print("No files found in Firebase Storage under 'isTrusted' folder.");
+      }
+    } catch (error) {
+      print("Error updating image stream: $error");
+    }
   }
 }

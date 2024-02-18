@@ -306,7 +306,7 @@ class _CarStatusOfMyCarState extends State<CarStatusOfMyCar> {
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
-                    fontSize: 14,
+                    fontSize: 12,
                   ),
                 ),
               ),
@@ -325,7 +325,7 @@ class _CarStatusOfMyCarState extends State<CarStatusOfMyCar> {
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.normal,
-                    fontSize: 14,
+                    fontSize: 12,
                   ),
                 ),
               ),
