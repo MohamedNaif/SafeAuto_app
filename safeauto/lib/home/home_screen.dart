@@ -1,15 +1,13 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:safeauto/home/widget/card_item.dart';
 
-
 import '../auth/login_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../screens/bluetooth.dart';
 import 'widget/bottom_nav_bar.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,6 +18,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool isLocked = false;
   final List<bool> switchStates = [false, false, false, false];
   CollectionReference _firestore =
       FirebaseFirestore.instance.collection('actions');
@@ -70,80 +69,118 @@ class _HomePageState extends State<HomePage> {
             Container(
               child: Align(
                 alignment: Alignment.bottomCenter,
-                child: CardWidget(
-                  cardItems: [
-                    CardItem(
-                      title: 'Doors',
-                      subtitle: 'Control the doors',
-                      backgroundColor: const Color(0xFF00E5F9),
-                      textColor: Colors.black,
-                      switchColor: const Color(0xFF00E5F9),
-                      switchBallColor: const Color(0xFF030F1B),
-                      isSwitchOn: switchStates[0],
-                      onChange: (newValue) {
-                        setState(() {
-                          switchStates[0] = newValue;
-                          if (newValue == true) {
-                            _updateFirestoreData('Doors', 'On');
-                          }
-                        });
-                      },
-                    ),
-                    // CardItem(
-                    //   title: 'Trunk',
-                    //   subtitle: 'Open or close the trunk',
-                    //   backgroundColor: const Color(0xFF062A3A),
-                    //   textColor: Colors.white,
-                    //   switchColor: const Color(0xFF062A3A),
-                    //   switchBallColor: const Color(0xFF346977),
-                    //   isSwitchOn: switchStates[1],
-                    //   onChange: (newValue) {
-                    //     setState(() {
-                    //       switchStates[1] = newValue;
-                    //       if (newValue == true) {
-                    //         _updateFirestoreData('Trunk', 'Open');
-                    //       }
-                    //     });
-                    //   },
-                    // ),
-                    CardItem(
-                      title: 'Engine',
-                      subtitle: 'Start or stop the engine',
-                      backgroundColor: const Color(0xFF062A3A),
-                      textColor: Colors.white,
-                      switchColor: const Color(0xFF062A3A),
-                      switchBallColor: const Color(0xFF346977),
-                      isSwitchOn: switchStates[2],
-                      onChange: (newValue) {
-                        setState(() {
-                          switchStates[2] = newValue;
-                          if (newValue == true) {
-                            _updateFirestoreData('Engine', 'Start');
-                          }
-                        });
-                      },
-                    ),
-                    // CardItem(
-                    //   title: 'Climate',
-                    //   subtitle: 'Adjust the climate settings',
-                    //   backgroundColor: const Color(0xFF00E5F9),
-                    //   textColor: Colors.black,
-                    //   switchColor: const Color(0xFF00E5F9),
-                    //   switchBallColor: const Color(0xFF030F1B),
-                    //   isSwitchOn: switchStates[3],
-                    //   onChange: (newValue) {
-                    //     setState(() {
-                    //       switchStates[3] = newValue;
-                    //       if (newValue == true) {
-                    //         _updateFirestoreData('Climate', 'Adjust');
-                    //       }
-                    //     });
-                    //   },
-                    // ),
-                  ],
-                ),
+                child: isLocked
+                    ? CardWidget(
+                        cardItems: [
+                          CardItem(
+                            title: 'Doors',
+                            subtitle: 'Control the doors',
+                            backgroundColor: const Color(0xFF00E5F9),
+                            textColor: Colors.black,
+                            switchColor: const Color(0xFF00E5F9),
+                            switchBallColor: const Color(0xFF030F1B),
+                            isSwitchOn: switchStates[0],
+                            onChange: (newValue) {
+                              setState(() {
+                                switchStates[0] = newValue;
+                                if (newValue == true) {
+                                  _updateFirestoreData('Doors', 'On');
+                                }
+                              });
+                            },
+                          ),
+                          // CardItem(
+                          //   title: 'Trunk',
+                          //   subtitle: 'Open or close the trunk',
+                          //   backgroundColor: const Color(0xFF062A3A),
+                          //   textColor: Colors.white,
+                          //   switchColor: const Color(0xFF062A3A),
+                          //   switchBallColor: const Color(0xFF346977),
+                          //   isSwitchOn: switchStates[1],
+                          //   onChange: (newValue) {
+                          //     setState(() {
+                          //       switchStates[1] = newValue;
+                          //       if (newValue == true) {
+                          //         _updateFirestoreData('Trunk', 'Open');
+                          //       }
+                          //     });
+                          //   },
+                          // ),
+                          CardItem(
+                            title: 'Engine',
+                            subtitle: 'Start or stop the engine',
+                            backgroundColor: const Color(0xFF062A3A),
+                            textColor: Colors.white,
+                            switchColor: const Color(0xFF062A3A),
+                            switchBallColor: const Color(0xFF346977),
+                            isSwitchOn: switchStates[2],
+                            onChange: (newValue) {
+                              setState(() {
+                                switchStates[2] = newValue;
+                                if (newValue == true) {
+                                  _updateFirestoreData('Engine', 'Start');
+                                }
+                              });
+                            },
+                          ),
+                          // CardItem(
+                          //   title: 'Climate',
+                          //   subtitle: 'Adjust the climate settings',
+                          //   backgroundColor: const Color(0xFF00E5F9),
+                          //   textColor: Colors.black,
+                          //   switchColor: const Color(0xFF00E5F9),
+                          //   switchBallColor: const Color(0xFF030F1B),
+                          //   isSwitchOn: switchStates[3],
+                          //   onChange: (newValue) {
+                          //     setState(() {
+                          //       switchStates[3] = newValue;
+                          //       if (newValue == true) {
+                          //         _updateFirestoreData('Climate', 'Adjust');
+                          //       }
+                          //     });
+                          //   },
+                          // ),
+                        ],
+                      )
+                    : Column(
+                        children: [
+                          SizedBox(
+                            height: 40,
+                          ),
+                          ClipRRect(
+                            borderRadius: const BorderRadius.all(
+                                Radius.elliptical(15, 15)),
+                            child: Card(
+                              color: Color.fromARGB(115, 57, 42, 42),
+                              child: Container(
+                                height: 180,
+                                width: 180,
+                                child: Icon(
+                                  Icons.lock,
+                                  color: const Color(0xFF00E5F9),
+                                  size: 60,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Center(
+                            child: Text(
+                              "Connect With Bluetooth To unlock And Control You Car",
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xFF00E5F9),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
               ),
             ),
+            // SizedBox(height: 300, child: BluetoothScreen())
           ],
         ),
       ),

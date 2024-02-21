@@ -60,6 +60,10 @@ dependencies:
   awesome_dialog: ^3.2.0
   firebase_storage: ^11.6.5
   path_provider: ^2.0.2
+  flutter_blue: ^0.8.0
+  permission_handler: ^11.3.0
+  # flutter_bluetooth_serial: ^0.4.0
+  flutter_blue_plus: ^1.31.15
 
 dev_dependencies:
   flutter_test:
