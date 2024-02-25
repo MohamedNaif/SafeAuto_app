@@ -39,7 +39,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       var userId = FirebaseAuth.instance.currentUser!.uid;
 
       // Get a reference to the folder where user's images are stored
-      var refStorage = FirebaseStorage.instance.ref().child('users/$userId');
+      var refStorage = FirebaseStorage.instance.ref().child('Trusted');
 
       // List all items in the folder
       var result = await refStorage.listAll();
@@ -69,11 +69,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   Future<void> uploadImagesToFirebaseStorage() async {
     try {
-      var userId = FirebaseAuth.instance.currentUser!.uid;
+      // var userId = FirebaseAuth.instance.currentUser!.uid;
       for (var imageFile in _selectedImages) {
         String imageName = basename(imageFile.path);
         var refStorage =
-            FirebaseStorage.instance.ref().child('users/$userId/$imageName');
+            FirebaseStorage.instance.ref().child('Trusted/$imageName');
         await refStorage.putFile(imageFile);
         String downloadURL = await refStorage.getDownloadURL();
         print("Image uploaded to Firebase Storage. Download URL: $downloadURL");
