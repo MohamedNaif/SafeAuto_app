@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '../../message/message_screen.dart';
-import '../../screens/user_profile.dart';
+import '../../trusted/user_profile.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({

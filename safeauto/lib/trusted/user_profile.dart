@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:path/path.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,9 +10,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart'; // Added image_picker import
 
 import '../auth/login_screen.dart';
-import '../auth/register_screen.dart';
 import 'my_image_screen.dart';
-import 'package:path_provider/path_provider.dart';
+
+import 'widget/car_status.dart';
 
 class UserProfileScreen extends StatefulWidget {
   @override
@@ -36,7 +34,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Future<void> fetchAndSetImageUrls() async {
     try {
       // Get the current user's ID
-      var userId = FirebaseAuth.instance.currentUser!.uid;
+      // var userId = FirebaseAuth.instance.currentUser!.uid;
 
       // Get a reference to the folder where user's images are stored
       var refStorage = FirebaseStorage.instance.ref().child('Trusted');
@@ -236,102 +234,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class CarStatus {
-  final bool isDoorOpen;
-  final bool isEngineOn;
-
-  CarStatus({
-    required this.isDoorOpen,
-    required this.isEngineOn,
-  });
-}
-
-class CarStatusOfMyCar extends StatefulWidget {
-  @override
-  State<CarStatusOfMyCar> createState() => _CarStatusOfMyCarState();
-}
-
-class _CarStatusOfMyCarState extends State<CarStatusOfMyCar> {
-  late Stream<DocumentSnapshot<Map<String, dynamic>>> _carStatusStream;
-
-  @override
-  void initState() {
-    super.initState();
-    _carStatusStream = FirebaseFirestore.instance
-        .collection('carStatus')
-        .doc('status')
-        .snapshots();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 170, // Set a fixed height to avoid infinite size error
-      child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        stream: _carStatusStream,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
-          if (!snapshot.hasData || snapshot.data?.data() == null) {
-            return Center(child: Text('No data available'));
-          }
-          final carStatusData = snapshot.data!.data()!;
-          final carStatus = CarStatus(
-            isDoorOpen: carStatusData['isDoorOpen'] ?? false,
-            isEngineOn: carStatusData['isEngineOn'] ?? false,
-          );
-          return Column(
-            children: [
-              ListTile(
-                title: Text(
-                  'Door Status: ${carStatus.isDoorOpen ? 'Open' : 'Closed'}',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-                trailing: Icon(Icons.directions_car),
-                subtitle: Text(
-                  "Your Current Door Status is ${carStatus.isDoorOpen ? 'Open' : 'Closed'}",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 12,
-                  ),
-                ),
-              ),
-              ListTile(
-                title: Text(
-                  'Engine Status: ${carStatus.isEngineOn ? 'On' : 'Off'}',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-                trailing: Icon(Icons.directions_car),
-                subtitle: Text(
-                  "Your Current Engine Status is ${carStatus.isEngineOn ? 'Open' : 'Closed'}",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal,
-                    fontSize: 12,
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
       ),
     );
   }
