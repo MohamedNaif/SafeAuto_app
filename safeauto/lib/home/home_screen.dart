@@ -10,7 +10,8 @@ import '../bluetooth/MainPage.dart';
 import 'widget/bottom_nav_bar.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key});
+  bool? isLocked;
+   HomePage({Key? key,  bool? isLocked});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -163,6 +164,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  isLocked = !isLocked;
+                });
+              },
+              child: Text('bool'),
             ),
           ],
         ),

@@ -5,6 +5,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
+import '../home/home_screen.dart';
+
 class ChatPage extends StatefulWidget {
   final BluetoothDevice server;
 
@@ -151,7 +153,15 @@ class _ChatPage extends State<ChatPage> {
                   child: IconButton(
                       icon: const Icon(Icons.send),
                       onPressed: isConnected
-                          ? () => _sendMessage(textEditingController.text)
+                          ? () {
+                              // Navigator.pushReplacement(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => HomePage(isLocked: true,),
+                              //   ),
+                              // );
+                              _sendMessage(textEditingController.text);
+                            }
                           : null),
                 ),
               ],

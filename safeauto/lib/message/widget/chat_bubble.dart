@@ -77,7 +77,7 @@ class _ChatBubble2State extends State<ChatBubble2> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const HomePage()));
+                                  builder: (context) =>  HomePage()));
                           showResultDialog(false);
 
                           // Add data to Firestore
@@ -98,7 +98,7 @@ class _ChatBubble2State extends State<ChatBubble2> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const HomePage()));
+                                  builder: (context) =>  HomePage()));
                           showResultDialog(true);
                           FirebaseFirestore.instance
                               .collection('isTrusted')
@@ -159,7 +159,7 @@ class _ChatBubble2State extends State<ChatBubble2> {
     try {
       // Query Firebase Storage to get the list of files
       ListResult result =
-          await FirebaseStorage.instance.ref().child("mmmm").list();
+          await FirebaseStorage.instance.ref().child("Trusted/mmmm").list();
 
       if (result.items.isNotEmpty) {
         // Get the latest image file
