@@ -160,7 +160,7 @@ class _LocationScreenState extends State<LocationScreen> {
                                 ),
                                 SizedBox(height: 2),
                                 Text(
-                                  'Time: $formattedTimestamp',
+                                  ' $formattedTimestamp',
                                   style: const TextStyle(
                                     fontSize: 16,
                                   ),
