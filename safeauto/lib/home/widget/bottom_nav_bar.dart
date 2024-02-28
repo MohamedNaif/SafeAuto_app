@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
+import '../../location/location.dart';
 import '../../message/message_screen.dart';
 import '../../trusted/user_profile.dart';
 
@@ -19,6 +19,14 @@ class BottomNavBar extends StatelessWidget {
         tabBackgroundColor: Colors.white,
         gap: 0,
         onTabChange: (index) {
+          if (index == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LocationScreen(),
+              ),
+            );
+          }
           if (index == 2) {
             Navigator.push(
               context,
@@ -59,6 +67,3 @@ class BottomNavBar extends StatelessWidget {
         ]);
   }
 }
-
-
-
