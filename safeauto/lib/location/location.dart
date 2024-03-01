@@ -116,31 +116,34 @@ class _LocationScreenState extends State<LocationScreen> {
             'assets/Map-ui.png',
             fit: BoxFit.cover,
           ),
+          Positioned(
+            top: MediaQuery.of(context).size.height * 0.2,
+            left: MediaQuery.of(context).size.width * 0.2,
+            child: Icon(
+              Icons.directions_car,
+              size: MediaQuery.of(context).size.width * 0.15,
+              color: Color.fromARGB(255, 0, 0, 0),
+            ),
+          ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                // Car icon
-                Padding(
-                  padding: const EdgeInsets.all(130.0),
-                  child: Icon(
-                    Icons.directions_car,
-                    size: 60,
-                    color: Color.fromARGB(255, 0, 0, 0),
-                  ),
-                ),
+                //
                 Positioned(
-                  top: 20,
+                  top: MediaQuery.of(context).size.height * 0.05,
                   child: Container(
                     key: _bubbleKey,
-                    margin: const EdgeInsets.only(top: 300),
+                    margin: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.35),
                     child: isLoading
-                        ? const CircularProgressIndicator()
+                        ? CircularProgressIndicator()
                         : Container(
                             alignment: Alignment.topCenter,
-                            width: 350,
-                            height: 100,
-                            padding: const EdgeInsets.all(10),
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            height: MediaQuery.of(context).size.height * 0.15,
+                            padding: EdgeInsets.all(
+                                MediaQuery.of(context).size.width * 0.02),
                             decoration: BoxDecoration(
                               color: Color.fromARGB(255, 255, 255, 255),
                               borderRadius: BorderRadius.circular(20),

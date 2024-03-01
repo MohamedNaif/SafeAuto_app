@@ -100,6 +100,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           ),
         ),
         centerTitle: true,
+        iconTheme: IconThemeData(
+          color: Colors.white, // Set the color of the back arrow to white
+        ),
         actions: [
           IconButton(
             onPressed: () async {

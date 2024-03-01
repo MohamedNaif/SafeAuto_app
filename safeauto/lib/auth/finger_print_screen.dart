@@ -56,7 +56,7 @@ class _FingerPrintState extends State<FingerPrint> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            HomePage()), // Replace with your home screen widget
+                            HomeScreen()), // Replace with your home screen widget
                   );
                 } else {
                   AwesomeDialog(

@@ -77,7 +77,7 @@ class _ChatBubble2State extends State<ChatBubble2> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>  HomePage()));
+                                  builder: (context) =>  HomeScreen()));
                           showResultDialog(false);
 
                           // Add data to Firestore
@@ -98,7 +98,7 @@ class _ChatBubble2State extends State<ChatBubble2> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>  HomePage()));
+                                  builder: (context) =>  HomeScreen()));
                           showResultDialog(true);
                           FirebaseFirestore.instance
                               .collection('isTrusted')
