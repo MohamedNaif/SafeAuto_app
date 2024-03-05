@@ -109,93 +109,104 @@ class _LocationScreenState extends State<LocationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffdfe9ef),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.asset(
-            'assets/Map-ui.png',
-            fit: BoxFit.cover,
-          ),
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.2,
-            left: MediaQuery.of(context).size.width * 0.2,
-            child: Icon(
-              Icons.directions_car,
-              size: MediaQuery.of(context).size.width * 0.15,
-              color: Color.fromARGB(255, 0, 0, 0),
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage(
+                  'assets/Map-ui.png',
+                ))),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.2,
+              left: MediaQuery.of(context).size.width * 0.2,
+              child: Icon(
+                Icons.directions_car,
+                size: MediaQuery.of(context).size.width * 0.15,
+                color: Color.fromARGB(255, 0, 0, 0),
+              ),
             ),
-          ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                //
-                Positioned(
-                  top: MediaQuery.of(context).size.height * 0.05,
-                  child: Container(
-                    key: _bubbleKey,
-                    margin: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.35),
-                    child: isLoading
-                        ? CircularProgressIndicator()
-                        : Container(
-                            alignment: Alignment.topCenter,
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            height: MediaQuery.of(context).size.height * 0.15,
-                            padding: EdgeInsets.all(
-                                MediaQuery.of(context).size.width * 0.02),
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 255, 255, 255),
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  offset: Offset(0, 2),
-                                  blurRadius: 5.0,
+            Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 250,
+                    ),
+                    //
+                    Positioned(
+                      top: MediaQuery.of(context).size.height * 0.05,
+                      child: Container(
+                        key: _bubbleKey,
+                        margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.35),
+                        child: isLoading
+                            ? CircularProgressIndicator()
+                            : Container(
+                                alignment: Alignment.topCenter,
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.15,
+                                padding: EdgeInsets.all(
+                                    MediaQuery.of(context).size.width * 0.02),
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      offset: Offset(0, 2),
+                                      blurRadius: 5.0,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Text(
-                                  'Address: $address',
-                                  style: const TextStyle(fontSize: 16),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'Address: $address',
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                    SizedBox(height: 2),
+                                    Text(
+                                      ' $formattedTimestamp',
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(height: 2),
-                                Text(
-                                  ' $formattedTimestamp',
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                  ),
-                ),
-                // Bubble
+                              ),
+                      ),
+                    ),
 
-                // Button
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _getCoordinatesAndTimestampFromFirebase();
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color(0xff6A63FA)),
+                    // Bubble
+
+                    // Button
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _getCoordinatesAndTimestampFromFirebase();
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              const Color(0xff6A63FA)),
+                        ),
+                        child: const Text(
+                          'Get Address',
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                      ),
                     ),
-                    child: const Text(
-                      'Get Address',
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                    ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

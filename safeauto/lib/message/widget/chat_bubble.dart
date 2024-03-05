@@ -77,14 +77,15 @@ class _ChatBubble2State extends State<ChatBubble2> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>  HomeScreen()));
+                                  builder: (context) => HomeScreen()));
                           showResultDialog(false);
 
                           // Add data to Firestore
                           FirebaseFirestore.instance
                               .collection('isTrusted')
-                              .add({
-                                'isTrusted': false,
+                              .doc('3UfKh47S3iOo9yLg0gcK')
+                              .set({
+                                'isTrusted': "false",
                                 // Add any other data you want to store
                               })
                               .then((value) => print("============Added"))
@@ -98,12 +99,13 @@ class _ChatBubble2State extends State<ChatBubble2> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>  HomeScreen()));
+                                  builder: (context) => HomeScreen()));
                           showResultDialog(true);
                           FirebaseFirestore.instance
                               .collection('isTrusted')
-                              .add({
-                                'isTrusted': true,
+                              .doc('3UfKh47S3iOo9yLg0gcK')
+                              .set({
+                                'isTrusted': "true",
                                 // Add any other data you want to store
                               })
                               .then((value) => print("============Added"))
