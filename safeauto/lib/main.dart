@@ -7,7 +7,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 import 'data/cubit/cubit/onboarding_cubit.dart';
+import 'home/home_screen.dart';
 import 'screens/splash_screen.dart';
+import 'location/location.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,7 +55,10 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: SplashScreen(),
+        home:
+        // HomeScreen()
+        
+         SplashScreen(),
         //     AddUser(
         //   fullName: '',
         //   company: '',
