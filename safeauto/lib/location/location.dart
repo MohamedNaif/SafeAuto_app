@@ -12,6 +12,8 @@ class LocationScreen extends StatefulWidget {
   _LocationScreenState createState() => _LocationScreenState();
 }
 
+
+
 class _LocationScreenState extends State<LocationScreen> {
   String address = '';
   String formattedTimestamp = '';
@@ -104,6 +106,13 @@ class _LocationScreenState extends State<LocationScreen> {
 
     Overlay.of(context)!.insert(overlayEntry);
   }
+
+  @override
+  void initState() {
+    _getCoordinatesAndTimestampFromFirebase();
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
