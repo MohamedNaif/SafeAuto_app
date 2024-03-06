@@ -10,6 +10,7 @@ import 'data/cubit/cubit/onboarding_cubit.dart';
 import 'home/home_screen.dart';
 import 'screens/splash_screen.dart';
 import 'location/location.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,18 +54,25 @@ class _MyAppState extends State<MyApp> {
           create: (BuildContext context) => OnBoardingControllerCubit(),
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home:
-        // HomeScreen()
-        
-         SplashScreen(),
-        //     AddUser(
-        //   fullName: '',
-        //   company: '',
-        //   age: 19,
-        // ),
-      ),
+      child: ScreenUtilInit(
+          designSize: const Size(360, 690),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          // Use builder only if you need to use library outside ScreenUtilInit context
+          builder: (_, child) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home:
+                  // HomeScreen()
+
+                  SplashScreen(),
+              //     AddUser(
+              //   fullName: '',
+              //   company: '',
+              //   age: 19,
+              // ),
+            );
+          }),
     );
   }
 }

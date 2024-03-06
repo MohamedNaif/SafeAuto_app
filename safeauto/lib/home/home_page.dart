@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safeauto/home/widget/card_item.dart';
 import '../auth/login_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -42,7 +43,7 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 15),
+            SizedBox(height: 15.h),
             Align(
               alignment: Alignment.topRight,
               child: IconButton(
@@ -65,7 +66,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Container(
-              height: 200,
+              height: 200.h,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.contain,
@@ -76,16 +77,16 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(
-              height: 150,
+              height: 150.h,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                // mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ActionButton(
                       text: "Control With Bluetooth",
-                      fontSize: 15,
+                      fontSize: 15.sp,
                       color: const Color(0xFF062A3A),
                       textColor: Color.fromARGB(255, 255, 255, 255),
                       onTap: () {
@@ -99,10 +100,13 @@ class _HomePageState extends State<HomePage> {
                       // _sendData("1"),
                       ),
                   // Spacer(),
+                   SizedBox(
+              width: 15.w,
+            ),
                   ActionButton(
                       color: const Color(0xFF00E5F9),
                       text: "Control With FireBase",
-                      fontSize: 15,
+                      fontSize: 15.sp,
                       textColor: const Color(0xFF030F1B),
                       onTap: () {
                         Navigator.push(

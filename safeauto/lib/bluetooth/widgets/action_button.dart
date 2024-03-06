@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ActionButton extends StatelessWidget {
   const ActionButton({
@@ -25,7 +26,8 @@ class ActionButton extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: SizedBox(
-          height: 150.0,
+          height: 150.h,
+          width: 160.w,
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(12.0),

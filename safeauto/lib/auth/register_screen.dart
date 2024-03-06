@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:safeauto/screens/finger_print_screen.dart';
 import 'package:safeauto/auth/login_screen.dart';
 import 'package:safeauto/auth/widget/text_button.dart';
@@ -73,21 +74,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         alignment: Alignment.center,
                       ),
                       SizedBox(
-                        height: 1,
-                        width: 100,
+                        height: 1.h,
+                        width: 100.w,
                         child: Image(
                           image: AssetImage(
                               'assets/SafeAuto-without-Background.png'),
                         ),
                       ),
                       const SizedBox(height: 64.0),
-                      const Align(
+                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'Register',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 16.0,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
                             fontFamily: "Lato",
                           ),
@@ -195,7 +196,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         buttonColor: Color.fromARGB(255, 64, 248, 255),
                         buttonText: "Sign Up",
                         fontFamily: "Lato",
-                        fontSize: 24,
+                        fontSize: 24.sp,
                         fontWeight: FontWeight.bold,
                       ),
                       const SizedBox(height: 16.0),
@@ -211,10 +212,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => LoginScreen())),
-                            child: const Text(
+                            child:  Text(
                               "Login",
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 16.sp,
                                 color: Color.fromARGB(255, 64, 248, 255),
                               ),
                             ),

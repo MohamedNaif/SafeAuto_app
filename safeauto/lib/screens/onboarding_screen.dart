@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 // import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safeauto/auth/login_screen.dart';
 import 'package:safeauto/auth/widget/text_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -123,13 +124,13 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(
-                              height: 15,
+                              height: 15.h,
                             ),
                             Spacer(),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
-                                  height: 200,
+                                  height: 200.h,
                                   width: double.infinity,
                                   color: Colors.white,
                                   child: Lottie.asset(onBoardingLOttie[index])),
@@ -143,9 +144,9 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                               child: Center(
                                 child: Text(
                                   onBoardingTitle[index],
-                                  style: const TextStyle(
+                                  style:  TextStyle(
                                     color: Colors.white,
-                                    fontSize: 26.0,
+                                    fontSize: 26.sp,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'Times New Roman',
                                   ),
@@ -153,7 +154,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                               ),
                             ),
                             SizedBox(
-                              height: 10,
+                              height: 10.h,
                             ),
                             Padding(
                               padding: const EdgeInsets.all(18.0),
@@ -162,7 +163,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                                   onBoardingSubtitle[index],
                                   style: TextStyle(
                                     color: Color.fromARGB(255, 226, 220, 220),
-                                    fontSize: 20,
+                                    fontSize: 20.sp,
                                     fontFamily: 'Roboto',
                                   ),
                                 ),
@@ -226,7 +227,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                       buttonColor: Color.fromARGB(255, 64, 248, 255),
                       buttonText: "Get Started",
                       fontFamily: "Lato",
-                      fontSize: 18,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                     ),
                     //

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safeauto/screens/onboarding_screen.dart';
 
 // import '../auth/login_screen.dart';
@@ -100,11 +101,11 @@ class _SplashScreenState extends State<SplashScreen>
               child: Column(
                 children: [
                   SizedBox(
-                    height: 50,
+                    height: 50.h,
                   ),
                   Container(
-                    height: 250,
-                    width: 300,
+                    height: 250.h,
+                    width: ScreenUtil().setWidth(300),
                     decoration: BoxDecoration(
                         // color: Colors.black,
                         image: DecorationImage(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safeauto/auth/finger_print_screen.dart';
 import 'package:safeauto/auth/register_screen.dart';
 import 'package:safeauto/auth/widget/google_container.dart';
@@ -77,32 +78,32 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Align(
+                     Align(
                       alignment: Alignment.center,
                       child: Text(
                         'SAFEAUTO APP',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 32.0,
+                          fontSize: 32.sp,
                           fontWeight: FontWeight.bold,
                           fontFamily: "Lato",
                         ),
                       ),
                     ),
-                    const SizedBox(height: 64.0),
-                    const Align(
+                     SizedBox(height: 64.h),
+                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         'LOGIN',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 16.0,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                           fontFamily: "Lato",
                         ),
                       ),
                     ),
-                    const SizedBox(height: 18),
+                     SizedBox(height: 18.h),
                     MyTextFormField(
                       icons: IconButton(
                           onPressed: () {},
@@ -181,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       buttonColor: Color.fromARGB(255, 64, 248, 255),
                       buttonText: "LOGIN",
                       fontFamily: "Lato",
-                      fontSize: 24,
+                      fontSize: 24.sp,
                       fontWeight: FontWeight.bold,
                     ),
                     const SizedBox(height: 12),
@@ -199,10 +200,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               builder: (context) => RegisterScreen(),
                             ),
                           ),
-                          child: const Text(
+                          child:  Text(
                             "Register",
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 16.sp,
                               color: Color.fromARGB(255, 64, 248, 255),
                             ),
                           ),

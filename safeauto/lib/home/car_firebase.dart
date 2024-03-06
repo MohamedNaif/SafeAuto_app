@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safeauto/home/widget/card_item.dart';
 import '../auth/login_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -56,9 +57,9 @@ class _CarControlState extends State<CarControl> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 15),
+            SizedBox(height: 15.h),
             Container(
-              height: 200,
+              height: 200.h,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.contain,
@@ -69,7 +70,7 @@ class _CarControlState extends State<CarControl> {
               ),
             ),
             SizedBox(
-              height: 150,
+              height: 150.h,
             ),
             Container(
               child: Align(
