@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:safeauto/main.dart';
 
 import '../home/home_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class NotificationService {
   static Future<void> initializeNotification() async {
@@ -121,6 +122,110 @@ class NotificationService {
             )
           : null,
     );
+  }
+
+
+
+  static  Future<void> setupFirestoreListener() async {
+    FirebaseFirestore.instance
+        .collection('Notifications')
+        .doc('notifications')
+        .snapshots()
+        .listen((DocumentSnapshot snapshot) async {
+      Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+      if (data != null) {
+        if (data['motor'] == '1') {
+          await NotificationService.showNotification(
+              title: "New ",
+              body: "Your Engine is Start",
+              payload: {
+                "navigate": "true",
+              },
+              actionButtons: [
+                NotificationActionButton(
+                  key: 'check',
+                  label: 'Check it out',
+                  actionType: ActionType.SilentAction,
+                  color: Colors.green,
+                )
+              ]);
+        }
+        if (data['newImage'] == '1') {
+          await NotificationService.showNotification(
+              title: "New ",
+              body: "Check is Trusted or not",
+              payload: {
+                "navigate": "true",
+              },
+              actionButtons: [
+                NotificationActionButton(
+                  key: 'check',
+                  label: 'Check it out',
+                  actionType: ActionType.SilentAction,
+                  color: Colors.green,
+                )
+              ]);
+        }
+        if (data['door'] == '1') {
+          await NotificationService.showNotification(
+              title: "New ",
+              body: "Door is open",
+              payload: {
+                "navigate": "true",
+              },
+              actionButtons: [
+                NotificationActionButton(
+                  key: 'check',
+                  label: 'Check it out',
+                  actionType: ActionType.SilentAction,
+                  color: Colors.green,
+                )
+              ]);
+        }
+      }
+    });
+    FirebaseFirestore.instance
+        .collection('carStatus')
+        .doc('status')
+        .snapshots()
+        .listen((DocumentSnapshot snapshot) async {
+      Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+      if (data != null) {
+        if (data['isEngineOn'] == true) {
+          await NotificationService.showNotification(
+              title: "New ",
+              body: "Your Engine is Start",
+              payload: {
+                "navigate": "true",
+              },
+              actionButtons: [
+                NotificationActionButton(
+                  key: 'check',
+                  label: 'Check it out',
+                  actionType: ActionType.SilentAction,
+                  color: Colors.green,
+                )
+              ]);
+        }
+        
+        if (data['isDoorOpen'] == true) {
+          await NotificationService.showNotification(
+              title: "New ",
+              body: "Door is open",
+              payload: {
+                "navigate": "true",
+              },
+              actionButtons: [
+                NotificationActionButton(
+                  key: 'check',
+                  label: 'Check it out',
+                  actionType: ActionType.SilentAction,
+                  color: Colors.green,
+                )
+              ]);
+        }
+      }
+    });
   }
 }
 

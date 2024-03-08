@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-
 import 'package:awesome_notifications/awesome_notifications.dart';
 
 import 'data/cubit/cubit/onboarding_cubit.dart';
@@ -18,12 +17,15 @@ import 'location/location.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
+  
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-    await NotificationService.initializeNotification();
+  await NotificationService.initializeNotification();
+  await NotificationService.setupFirestoreListener();
 
   // SharedPreferences prefs = await SharedPreferences.getInstance();
   // initScreen = (prefs.getInt('onBoard'));
@@ -32,8 +34,6 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
-
-  
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -51,10 +51,12 @@ class _MyAppState extends State<MyApp> {
       }
     });
 
+    // NotificationScrren();
+
     super.initState();
   }
 
-static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -76,9 +78,9 @@ static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
               home:
                   // HomeScreen()
 
-                  // SplashScreen(),
-                  NotificationScrren(),
-                 
+                  SplashScreen(),
+              // NotificationScrren(),
+
               //     AddUser(
               //   fullName: '',
               //   company: '',
