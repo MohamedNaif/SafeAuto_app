@@ -1,13 +1,6 @@
-
-import 'dart:async';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:flutter/material.dart';
-// Added image_picker import
-
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:safeauto/home/home_screen.dart';
 
 class CarStatus {
   final bool isDoorOpen;
@@ -26,6 +19,7 @@ class CarStatusOfMyCar extends StatefulWidget {
 
 class _CarStatusOfMyCarState extends State<CarStatusOfMyCar> {
   late Stream<DocumentSnapshot<Map<String, dynamic>>> _carStatusStream;
+  late Stream<DocumentSnapshot<Map<String, dynamic>>> _notificationsStream;
 
   @override
   void initState() {
@@ -34,12 +28,17 @@ class _CarStatusOfMyCarState extends State<CarStatusOfMyCar> {
         .collection('carStatus')
         .doc('status')
         .snapshots();
+
+    _notificationsStream = FirebaseFirestore.instance
+        .collection('Notifications')
+        .doc('notifications')
+        .snapshots();
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 170, // Set a fixed height to avoid infinite size error
+      height: 170,
       child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
         stream: _carStatusStream,
         builder: (context, snapshot) {
@@ -57,6 +56,14 @@ class _CarStatusOfMyCarState extends State<CarStatusOfMyCar> {
             isDoorOpen: carStatusData['isDoorOpen'] ?? false,
             isEngineOn: carStatusData['isEngineOn'] ?? false,
           );
+
+          // Check if the door is open and navigate to home
+          // if (carStatus.isDoorOpen) {
+          //   Navigator.of(context).pushReplacement(
+          //     MaterialPageRoute(builder: (context) => HomeScreen()),
+          //   );
+          // }
+
           return Column(
             children: [
               ListTile(
