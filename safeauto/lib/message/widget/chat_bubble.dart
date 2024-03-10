@@ -63,7 +63,7 @@ class _ChatBubble2State extends State<ChatBubble2> {
         child: GestureDetector(
           onTap: () {
             // Wait for 5 seconds
-            _timer = Timer(const Duration(seconds: 5), () {
+            _timer = Timer(const Duration(seconds: 1), () {
               // After 5 seconds, show the dialog
               showDialog(
                 context: context,
@@ -127,6 +127,16 @@ class _ChatBubble2State extends State<ChatBubble2> {
                 stream: _imageStreamController.stream,
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
+                    return Center(
+                        child: Text(
+                      'No Image available',
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),
+                    ));
+                  }
+                  if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   }
                   return Container(
@@ -143,6 +153,17 @@ class _ChatBubble2State extends State<ChatBubble2> {
                 padding: EdgeInsets.only(top: 8),
                 child: Text(
                   'Is this person trusted?',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  ),
+                ),
+              ),
+              SizedBox(height: 4.0),
+              Padding(
+                padding: EdgeInsets.only(top: 8),
+                child: Text(
+                  'Clk on image ',
                   style: TextStyle(
                     fontSize: 16.0,
                     color: Color.fromARGB(255, 255, 255, 255),

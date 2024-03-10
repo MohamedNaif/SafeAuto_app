@@ -137,4 +137,12 @@ class _CarControlState extends State<CarControl> {
         .catchError(
             (error) => print("Failed to update document '$docName': $error"));
   }
+
+  @override
+  void dispose() {
+    _updateFirestoreData('Engine', 'Engine', 'Stop');
+    _updateFirestoreData('Doors', 'Doors', 'Close');
+
+    super.dispose();
+  }
 }

@@ -144,7 +144,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                               child: Center(
                                 child: Text(
                                   onBoardingTitle[index],
-                                  style:  TextStyle(
+                                  style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 26.sp,
                                     fontWeight: FontWeight.bold,
@@ -163,7 +163,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                                   onBoardingSubtitle[index],
                                   style: TextStyle(
                                     color: Color.fromARGB(255, 226, 220, 220),
-                                    fontSize: 20.sp,
+                                    fontSize: 16.sp,
                                     fontFamily: 'Roboto',
                                   ),
                                 ),
@@ -220,7 +220,15 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    FirebaseAuth.instance.currentUser == null && (FirebaseAuth.instance.currentUser?.emailVerified == false||FirebaseAuth.instance.currentUser?.emailVerified == null)
+                                    FirebaseAuth.instance.currentUser == null &&
+                                            (FirebaseAuth.instance.currentUser
+                                                        ?.emailVerified ==
+                                                    false ||
+                                                FirebaseAuth
+                                                        .instance
+                                                        .currentUser
+                                                        ?.emailVerified ==
+                                                    null)
                                         ? LoginScreen()
                                         : FingerPrint()));
                       },
