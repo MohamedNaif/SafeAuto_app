@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:safeauto/home/home_page.dart';
-import 'package:safeauto/home/widget/bottom_nav_bar.dart';
+
 import 'package:safeauto/location/location.dart';
 import 'package:safeauto/message/message_screen.dart';
 import 'package:safeauto/trusted/user_profile.dart';
-import 'package:safeauto/auth/login_screen.dart';
-import 'package:safeauto/auth/widget/new_button.dart';
+
 import 'package:google_nav_bar/google_nav_bar.dart';
+
+import '../live/live_streming.dart';
 
 class HomeScreen extends StatefulWidget {
   final bool? isLocked;
@@ -27,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   static List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     LocationScreen(),
+    StreamApp(),
     ChatScreen(),
     UserProfileScreen(),
   ];
@@ -45,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colors.white,
             activeColor: const Color.fromARGB(255, 17, 97, 129),
             tabBackgroundColor: Colors.white,
-            gap: 8,
+            gap: 10,
             padding: const EdgeInsets.all(16),
             tabs: const [
               GButton(
@@ -55,6 +57,10 @@ class _HomeScreenState extends State<HomeScreen> {
               GButton(
                 icon: Icons.location_on,
                 text: 'Location',
+              ),
+              GButton(
+                icon: Icons.video_camera_back,
+                text: 'Live',
               ),
               GButton(
                 icon: Icons.message,

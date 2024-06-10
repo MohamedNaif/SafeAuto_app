@@ -140,8 +140,8 @@ class _CarControlState extends State<CarControl> {
 
   @override
   void dispose() {
-    _updateFirestoreData('Engine', 'Engine', 'Stop');
-    _updateFirestoreData('Doors', 'Doors', 'Close');
+    // _updateFirestoreData('Engine', 'Engine', 'Stop');
+    // _updateFirestoreData('Doors', 'Doors', 'Close');
 
     super.dispose();
   }

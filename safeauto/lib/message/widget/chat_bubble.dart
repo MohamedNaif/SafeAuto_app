@@ -140,7 +140,7 @@ class _ChatBubble2State extends State<ChatBubble2> {
                     return Center(child: CircularProgressIndicator());
                   }
                   return Container(
-                    width: 300,
+                    width: 280,
                     height: 500,
                     child: Image.network(
                       snapshot.data!,

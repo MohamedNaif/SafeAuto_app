@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:safeauto/home/widget/card_item.dart';
+
 import '../auth/login_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ActionButton(
                       text: "Control With Bluetooth",
@@ -100,9 +100,9 @@ class _HomePageState extends State<HomePage> {
                       // _sendData("1"),
                       ),
                   // Spacer(),
-                   SizedBox(
-              width: 15.w,
-            ),
+                  SizedBox(
+                    width: 15.w,
+                  ),
                   ActionButton(
                       color: const Color(0xFF00E5F9),
                       text: "Control With FireBase",

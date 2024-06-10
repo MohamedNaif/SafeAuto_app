@@ -81,8 +81,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               'assets/SafeAuto-without-Background.png'),
                         ),
                       ),
-                      const SizedBox(height: 64.0),
-                       Align(
+                      SizedBox(height: 64.h),
+                      Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'Register',
@@ -150,7 +150,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 30.0),
+                      SizedBox(height: 15.h),
                       MyInkWellButton(
                         onTap: () async {
                           setState(() {
@@ -190,8 +190,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               showAwesomeDialog(errorMessage);
                             }
                           }
-
-                          
                         },
                         buttonColor: Color.fromARGB(255, 64, 248, 255),
                         buttonText: "Sign Up",
@@ -199,7 +197,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         fontSize: 24.sp,
                         fontWeight: FontWeight.bold,
                       ),
-                      const SizedBox(height: 16.0),
+                      // SizedBox(height: 16.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -212,7 +210,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => LoginScreen())),
-                            child:  Text(
+                            child: Text(
                               "Login",
                               style: TextStyle(
                                 fontSize: 16.sp,
@@ -222,7 +220,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ],
                       ),
-                      const Spacer(),
+                      // const Spacer(),
                     ],
                   ),
                 ),

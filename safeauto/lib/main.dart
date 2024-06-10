@@ -1,42 +1,31 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:safeauto/message/firebase_real_data.dart';
-
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-
-import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:safeauto/auth/widget/face_id.dart';
 
 import 'data/cubit/cubit/onboarding_cubit.dart';
-import 'home/home_screen.dart';
-import 'notification/notification.dart';
+
+import 'features/splash/presentation/views/splash_view.dart';
 import 'notification/notification_service.dart';
-import 'screens/splash_screen.dart';
-import 'location/location.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:device_preview/device_preview.dart';
 
 void main() async {
-  
-
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
+  await Firebase.initializeApp();
   await NotificationService.initializeNotification();
   await NotificationService.setupFirestoreListener();
 
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
-  // initScreen = (prefs.getInt('onBoard'));
-  runApp(MyApp());
+  runApp(DevicePreview(enabled: true, builder: (context) => MyApp()));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -44,20 +33,17 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user == null) {
-        print(
-            '====================================User is currently signed out!');
+        print('==============================User is currently signed out!');
       } else {
-        print('=====================================User is signed in!');
+        print('============================User is signed in!');
       }
     });
-
-    // NotificationScrren();
 
     super.initState();
   }
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -67,27 +53,19 @@ class _MyAppState extends State<MyApp> {
         ),
       ],
       child: ScreenUtilInit(
-          designSize: const Size(360, 690),
-          minTextAdapt: true,
-          splitScreenMode: true,
-          // Use builder only if you need to use library outside ScreenUtilInit context
-          builder: (_, child) {
-            return MaterialApp(
-              navigatorKey: navigatorKey,
-              debugShowCheckedModeBanner: false,
-              home:
-                  // HomeScreen()
-
-                  SplashScreen(),
-              // NotificationScrren(),
-
-              //     AddUser(
-              //   fullName: '',
-              //   company: '',
-              //   age: 19,
-              // ),
-            );
-          }),
+        designSize: const Size(360, 690),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (_, child) {
+          return MaterialApp(
+            locale: DevicePreview.locale(context),
+            builder: DevicePreview.appBuilder,
+            navigatorKey: navigatorKey,
+            debugShowCheckedModeBanner: false,
+            home: const SplashView(),
+          );
+        },
+      ),
     );
   }
 }

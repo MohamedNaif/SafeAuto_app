@@ -10,8 +10,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart'; // Added image_picker import
 
 import '../auth/login_screen.dart';
+import '../bluetooth/widgets/action_button.dart';
 import 'my_image_screen.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'widget/car_status.dart';
 
 class UserProfileScreen extends StatefulWidget {
@@ -174,64 +175,69 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ),
                 ),
                 SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () async {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return SafeArea(
-                          child: Wrap(
-                            children: <Widget>[
-                              ListTile(
-                                leading: Icon(Icons.photo_library),
-                                title: Text('Choose from gallery'),
-                                onTap: () async {
-                                  await getImage(ImageSource.gallery);
-                                  await uploadImagesToFirebaseStorage();
-                                  // Fetch and set image URLs again
-                                  await fetchAndSetImageUrls();
-                                  Navigator.pop(context);
-                                },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ActionButton(
+                      text: 'Add a picture',
+                      fontSize: 15.sp,
+                      color: const Color(0xFF062A3A),
+                      textColor: Color.fromARGB(255, 255, 255, 255),
+                      onTap: () async {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return SafeArea(
+                              child: Wrap(
+                                children: <Widget>[
+                                  ListTile(
+                                    leading: Icon(Icons.photo_library),
+                                    title: Text('Choose from gallery'),
+                                    onTap: () async {
+                                      await getImage(ImageSource.gallery);
+                                      await uploadImagesToFirebaseStorage();
+                                      // Fetch and set image URLs again
+                                      await fetchAndSetImageUrls();
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                  ListTile(
+                                    leading: Icon(Icons.photo_camera),
+                                    title: Text('Take a picture'),
+                                    onTap: () async {
+                                      await getImage(ImageSource.camera);
+                                      await uploadImagesToFirebaseStorage();
+                                      // Fetch and set image URLs again
+                                      await fetchAndSetImageUrls();
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ],
                               ),
-                              ListTile(
-                                leading: Icon(Icons.photo_camera),
-                                title: Text('Take a picture'),
-                                onTap: () async {
-                                  await getImage(ImageSource.camera);
-                                  await uploadImagesToFirebaseStorage();
-                                  // Fetch and set image URLs again
-                                  await fetchAndSetImageUrls();
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ],
-                          ),
+                            );
+                          },
                         );
                       },
-                    );
-                  },
-                  child: Text(
-                    'Add a picture',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
                     ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SelectedImageScreen(
-                          imageUrls: _imageUrls,
-                        ),
-                      ),
-                    );
-                  },
-                  child: Text('View Selected Images'),
+                    SizedBox(
+                      width: 5.w,
+                    ),
+                    ActionButton(
+                        color: const Color(0xFF00E5F9),
+                        text: 'View Selected Images',
+                        fontSize: 15.sp,
+                        textColor: const Color(0xFF030F1B),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SelectedImageScreen(
+                                imageUrls: _imageUrls,
+                              ),
+                            ),
+                          );
+                        }),
+                  ],
                 ),
               ],
             ),

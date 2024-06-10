@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:safeauto/auth/finger_print_screen.dart';
 import 'package:safeauto/auth/finger_print_screen.dart';
 import 'package:safeauto/auth/register_screen.dart';
 import 'package:safeauto/auth/widget/google_container.dart';
@@ -8,6 +9,7 @@ import 'package:safeauto/auth/widget/text_button.dart';
 import 'package:safeauto/auth/widget/textformfield.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -47,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const FingerPrint(),
+          builder: (context) =>  FingerPrint(),
         ),
       );
     } catch (e) {
@@ -158,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const FingerPrint(),
+                                  builder: (context) =>  FingerPrint(),
                                 ),
                               );
                             } else {

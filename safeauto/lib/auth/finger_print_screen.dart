@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:safeauto/home/home_screen.dart';
 
-
 // Import your home screen file
 
 class FingerPrint extends StatefulWidget {
@@ -40,7 +39,7 @@ class _FingerPrintState extends State<FingerPrint> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Put Your Finger Here ',
+              'Clk on Fingerprint',
               style: TextStyle(
                 color: Color.fromARGB(255, 64, 248, 255),
                 fontSize: 25,
