@@ -62,6 +62,22 @@ class _NotificationScrrenState extends State<NotificationScrren> {
                 )
               ]);
         }
+        if (data['vibration'] == '1') {
+          await NotificationService.showNotification(
+              title: "New ",
+              body: "Check your car ",
+              payload: {
+                "navigate": "true",
+              },
+              actionButtons: [
+                NotificationActionButton(
+                  key: 'check',
+                  label: 'Check it out',
+                  actionType: ActionType.SilentAction,
+                  color: Colors.green,
+                )
+              ]);
+        }
         if (data['door'] == '1') {
           await NotificationService.showNotification(
               title: "New ",

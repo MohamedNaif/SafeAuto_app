@@ -18,7 +18,7 @@ void main() async {
   await NotificationService.initializeNotification();
   await NotificationService.setupFirestoreListener();
 
-  runApp(DevicePreview(enabled: true, builder: (context) => MyApp()));
+  runApp(DevicePreview(enabled: false, builder: (context) => MyApp()));
 }
 
 class MyApp extends StatefulWidget {

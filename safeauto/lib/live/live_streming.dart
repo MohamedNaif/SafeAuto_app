@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:dio/dio.dart';
+import 'package:fijkplayer/fijkplayer.dart';
+import 'video_recording_screen.dart'; // Assuming this is your recording screen
 
 class StreamApp extends StatefulWidget {
   @override
@@ -8,104 +8,65 @@ class StreamApp extends StatefulWidget {
 }
 
 class _StreamAppState extends State<StreamApp> {
-  InAppWebViewController? webViewController;
-  final String serverIP = "http://192.168.1.6:5000"; // Replace with your actual server IP
-  bool isLoading = true;
+  final FijkPlayer _fijkPlayerController = FijkPlayer();
   String errorMessage = '';
-  final Dio dio = Dio();
 
   @override
   void initState() {
     super.initState();
-    _fetchStream();
+    _initializePlayer();
+  }
+
+  Future<void> _initializePlayer() async {
+    try {
+      await _fijkPlayerController.setDataSource(
+        "http://192.168.1.7:5000/video_feed",
+        autoPlay: true,
+    //     analyzeduration: 10000, // Adjust value (in microseconds)
+    // probesize: 102400,       // Adjust value (in bytes)
+
+         // Replace with your actual URL
+      );
+      // await _fijkPlayerController.prepareAsync();
+
+      setState(() {});
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Error initializing video player: $e';
+      });
+    }
   }
 
   @override
   void dispose() {
-    webViewController?.dispose();
+    _fijkPlayerController.release();
     super.dispose();
-  }
-
-  Future<void> _fetchStream() async {
-    setState(() {
-      isLoading = true;
-      errorMessage = '';
-    });
-
-    try {
-      final response = await dio.get('$serverIP/video_feed');
-      if (response.statusCode == 200) {
-        setState(() {
-          isLoading = false;
-        });
-      } else {
-        _showError('Error: Unable to load stream');
-      }
-    } catch (e) {
-      _showError('Error: $e');
-    }
-  }
-
-  void _showError(String message) {
-    setState(() {
-      isLoading = false;
-      errorMessage = message;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Surveillance Stream',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          ),
-        ),
         centerTitle: true,
-      ),
-      body: Stack(
-        children: [
-          InAppWebView(
-            initialUrlRequest: URLRequest(url: WebUri('$serverIP/video_feed')),
-            onWebViewCreated: (controller) {
-              webViewController = controller;
+        title: Text('Live Stream'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.save),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => VideoGridScreen()),
+              );
             },
-            onLoadStart: (controller, url) => setState(() {
-              isLoading = true;
-              errorMessage = '';
-            }),
-            onLoadStop: (controller, url) => setState(() => isLoading = false),
-            onReceivedError: (controller, request, error) => _showError('Error: ${error.description}'),
           ),
-          if (isLoading)
-            Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
-              ),
-            ),
-          if (errorMessage.isNotEmpty)
-            Center(
-              child: Container(
-                padding: EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.redAccent,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Text(
-                  errorMessage,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
         ],
+      ),
+      body: Center(
+        child: errorMessage.isNotEmpty
+            ? Text(errorMessage)
+            : FijkView(
+                player: _fijkPlayerController,
+              ),
       ),
     );
   }
