@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "960178877868",
+    "firebase_url": "https://safeauto-97339-default-rtdb.firebaseio.com",
     "project_id": "safeauto-97339",
     "storage_bucket": "safeauto-97339.appspot.com"
   },
@@ -12,7 +13,28 @@
           "package_name": "com.example.safeauto"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "960178877868-7ikeuis6omn0d6juk9or6kma4tq1qihu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.safeauto",
+            "certificate_hash": "ef75d62910fb362af65ebaec73b992aff03acd37"
+          }
+        },
+        {
+          "client_id": "960178877868-nm150aln9hhjftr80eo9ita6btggrd1r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.safeauto",
+            "certificate_hash": "c92beace874b6ae7a9776f5dddf595a8760101b5"
+          }
+        },
+        {
+          "client_id": "960178877868-60ugce154kfc1i1p0bj19of8jpsillue.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyADy5eobd-DdfuYoaiseE3iVFol24I5GMQ"
@@ -20,7 +42,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960178877868-60ugce154kfc1i1p0bj19of8jpsillue.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "960178877868-abcc6nepr68m8q2lodvgk380cicmca0q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.safeauto"
+              }
+            }
+          ]
         }
       }
     }

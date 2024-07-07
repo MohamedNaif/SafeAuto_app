@@ -46,7 +46,7 @@ class _StreamAppState extends State<StreamApp> {
         ],
       ),
       body: WebView(
-        initialUrl: 'http://192.168.1.10:5000/video_feed',
+        initialUrl: 'http://192.168.43.191:5000/video_feed',
         javascriptMode: JavascriptMode.unrestricted,
       ),
     );
